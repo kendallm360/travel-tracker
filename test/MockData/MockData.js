@@ -1,4 +1,5 @@
 import TravelersRepo from "../../src/TravelersRepo";
+import Traveler from "../../src/Traveler";
 
 const travelerRepoInstance = new TravelersRepo([
   {
@@ -43,4 +44,25 @@ const travelerRepoInstance = new TravelersRepo([
   },
 ]);
 
-export { travelerRepoInstance };
+const travelerInstance1 = new Traveler({
+  id: 1,
+  name: "Ham Leadbeater",
+  travelerType: "relaxer",
+});
+const travelerInstance2 = new Traveler({
+  id: 2,
+  name: "Rachael Vaughten",
+  travelerType: "thrill-seeker",
+});
+const travelerInstance3 = new Traveler({
+  id: 3,
+  name: "Sibby Dawidowitsch",
+  travelerType: "shopper",
+});
+
+export {
+  travelerRepoInstance,
+  travelerInstance1,
+  travelerInstance2,
+  travelerInstance3,
+};
