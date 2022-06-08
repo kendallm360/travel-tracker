@@ -1,3 +1,53 @@
 body {
-  background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
+  display: flex;
+  flex-direction: column;
+  /* background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%); */
+}
+
+.title-bar {
+  border: solid 3px red;
+  height: 15vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-bar {
+  border: solid 3px pink;
+  height: 20%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.title {
+  border: solid 3px brown;
+  height: 60%;
+}
+
+.total-spend {
+  border: solid 3px green;
+  height: 10%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.main-display {
+  border: solid 3px blue;
+  height: 80vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+}
+
+.user-input {
+  border: solid 3px purple;
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+}
+
+.booking-options {
+  border: solid 3px orange;
+  width: 80%;
 }
