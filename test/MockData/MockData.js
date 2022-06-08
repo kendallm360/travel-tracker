@@ -15,6 +15,11 @@ const testData = {
       name: "Sibby Dawidowitsch",
       travelerType: "shopper",
     },
+    {
+      id: null,
+      name: null,
+      travelerType: null,
+    },
   ],
   trips: [
     {
