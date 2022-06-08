@@ -1,4 +1,4 @@
-import Trips from "./Trips";
+// import Trips from "./Trips";
 
 export default class Traveler {
   constructor(travelerData) {
@@ -7,7 +7,7 @@ export default class Traveler {
     this.travelerType = travelerData.travelerType;
     this.trips = undefined;
     this.destinations = undefined;
-    this.userName = "";
+    this.userName = `traveler${this.id}`;
     this.password = "travel";
   }
   returnFirstName() {
@@ -54,7 +54,4 @@ export default class Traveler {
     let agentFee = totalSpent * 0.1;
     return totalSpent + agentFee;
   }
-  //   findByID(id) {
-  //     let result = tripData;
-  //   }
 }

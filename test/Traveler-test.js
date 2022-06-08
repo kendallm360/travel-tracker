@@ -56,21 +56,21 @@ describe("Traveler", () => {
   //     expect(traveler1.findByID(1)).to.equal(1);
   //   });
 
-  it("Should have a method that adds past trips to user's trips property", () => {
+  it("Should have a method that adds all trips to user's trips property", () => {
     traveler1.findMyTrips(tripData);
     expect(traveler1.trips).to.deep.equal([1, 3]);
     traveler4.findMyTrips(tripData);
     expect(traveler4.trips).to.deep.equal([]);
   });
 
-  it("Should have a method that adds past destinations to user's destinations property", () => {
+  it("Should have a method that adds all destinations to user's destinations property", () => {
     traveler1.findMyDestinations(tripData);
     expect(traveler1.destinations).to.deep.equal([49, 22]);
     traveler4.findMyDestinations(tripData);
     expect(traveler4.destinations).to.deep.equal([]);
   });
 
-  it.only("Should have a method that calculates total spent on past trips", () => {
+  it("Should have a method that calculates total spent on past trips", () => {
     expect(traveler1.calculateTotalSpent(tripData, destinationData)).to.equal(
       3047
     );
