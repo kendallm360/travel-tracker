@@ -4,6 +4,7 @@ import Traveler from "../src/Traveler";
 import testData from "./MockData/MockData";
 
 describe("Traveler", () => {
+  let tripData;
   let travelerData;
   let traveler1;
   let traveler2;
@@ -11,6 +12,7 @@ describe("Traveler", () => {
   let traveler4;
 
   beforeEach(() => {
+    tripData = testData.trips;
     travelerData = testData.travelers;
     traveler1 = new Traveler(travelerData[0]);
     traveler2 = new Traveler(travelerData[1]);
@@ -42,13 +44,20 @@ describe("Traveler", () => {
     expect(traveler3.returnFirstName()).to.equal("Sibby");
     expect(traveler2.returnFirstName()).to.equal("Rachael");
     expect(traveler1.returnFirstName()).to.equal("Ham");
+  });
+
+  it("Should show an error if user does not have a name", () => {
     expect(traveler4.returnFirstName()).to.equal("No name has been provided");
   });
+
   //   it("Should have a method that finds user info by id", () => {
   //     expect(traveler1.findByID(1)).to.equal(1);
   //   });
 
-  //   it("Should have a method that adds past trips to user's property", () => {
-  //     expect(traveler1.trips).to.deep.equal([1, 3]);
-  //   });
+  it.only("Should have a method that adds past trips to user's property", () => {
+    traveler1.findMyTrips(tripData);
+    expect(traveler1.trips).to.deep.equal([1, 3]);
+    traveler4.findMyTrips(tripData);
+    expect(traveler4.trips).to.deep.equal([]);
+  });
 });
