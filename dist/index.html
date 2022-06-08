@@ -1,16 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Webpack Starter Kit</title>
-</head>
-<body>
-  <img src="./images/turing-logo.png" alt="turing logo">
-  
-  <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
-  <script src="bundle.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Travel Tracker</title>
+  </head>
+  <body>
+    <header class="title-bar">
+      <nav class="nav-bar">
+        <button class="nav-buttons" id="pastTrips">past trips</button>
+        <button class="nav-buttons" id="upcomingTrips">upcoming trips</button>
+        <button class="nav-buttons" id="pendingTrips">pending trips</button>
+        <button class="nav-buttons" id="logout">logout</button>
+      </nav>
+      <div class="title">
+        welcome user
+        <!-- not suree if below will be interpolated or switched -->
+        <!-- <h1></h1> -->
+      </div>
+      <p class="total-spend">
+        Plenty $
+        <!-- not suree if below will be interpolated or switched -->
+        <!-- <h2></h2> -->
+      </p>
+    </header>
 
-</body>
+    <section class="main-display">
+      <aside class="user-input">
+        <label for="dateFilter">Filter By Date</label>
+        <input type="text" name="dateFilter" />
+
+        <label for="durationFilter">Filter By Duration</label>
+        <input type="text" name="durationFilter" />
+
+        <label for="numOfTravelersFilter">Filter By Number of Travelers</label>
+        <input type="text" name="numOfTravelersFilter" />
+      </aside>
+
+      <div class="booking-options">options display here</div>
+    </section>
+
+    <!-- <img src="./images/turing-logo.png" alt="turing logo"> -->
+    <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
+    <script src="bundle.js"></script>
+  </body>
 </html>
