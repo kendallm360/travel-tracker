@@ -6,6 +6,7 @@ export default class Traveler {
     this.name = travelerData.name;
     this.travelerType = travelerData.travelerType;
     this.trips = undefined;
+    this.destinations = undefined;
     this.userName = "";
     this.password = "travel";
   }
@@ -23,8 +24,35 @@ export default class Traveler {
       .filter((trip) => trip.userID === this.id)
       .map((trip) => trip.id);
     this.trips = trips;
-
     return this.trips;
+  }
+
+  findMyDestinations(tripData) {
+    let destinations = tripData
+      .filter((trip) => trip.userID === this.id)
+      .map((trip) => trip.destinationID);
+    this.destinations = destinations;
+    return this.destinations;
+  }
+
+  calculateTotalSpent(tripData, destinationData) {
+    let destinationsVisited = this.findMyDestinations(tripData);
+    let tripTotals = tripData.reduce((acc, trip) => {
+      if (destinationsVisited.includes(trip.destinationID)) {
+        let destinationCost = destinationData
+          .filter((destination) => trip.destinationID === destination.id)
+          .map((destination) => destination.estimatedLodgingCostPerDay)
+          .pop();
+        acc.push(trip.duration * destinationCost);
+      }
+      return acc;
+    }, []);
+    let totalSpent = tripTotals.reduce((acc, tripTotal) => {
+      acc += tripTotal;
+      return acc;
+    }, 0);
+    let agentFee = totalSpent * 0.1;
+    return totalSpent + agentFee;
   }
   //   findByID(id) {
   //     let result = tripData;

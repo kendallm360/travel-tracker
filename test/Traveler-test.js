@@ -5,6 +5,7 @@ import testData from "./MockData/MockData";
 
 describe("Traveler", () => {
   let tripData;
+  let destinationData;
   let travelerData;
   let traveler1;
   let traveler2;
@@ -13,6 +14,7 @@ describe("Traveler", () => {
 
   beforeEach(() => {
     tripData = testData.trips;
+    destinationData = testData.destinations;
     travelerData = testData.travelers;
     traveler1 = new Traveler(travelerData[0]);
     traveler2 = new Traveler(travelerData[1]);
@@ -54,10 +56,26 @@ describe("Traveler", () => {
   //     expect(traveler1.findByID(1)).to.equal(1);
   //   });
 
-  it.only("Should have a method that adds past trips to user's property", () => {
+  it("Should have a method that adds past trips to user's trips property", () => {
     traveler1.findMyTrips(tripData);
     expect(traveler1.trips).to.deep.equal([1, 3]);
     traveler4.findMyTrips(tripData);
     expect(traveler4.trips).to.deep.equal([]);
+  });
+
+  it("Should have a method that adds past destinations to user's destinations property", () => {
+    traveler1.findMyDestinations(tripData);
+    expect(traveler1.destinations).to.deep.equal([49, 22]);
+    traveler4.findMyDestinations(tripData);
+    expect(traveler4.destinations).to.deep.equal([]);
+  });
+
+  it.only("Should have a method that calculates total spent on past trips", () => {
+    expect(traveler1.calculateTotalSpent(tripData, destinationData)).to.equal(
+      3047
+    );
+    expect(traveler2.calculateTotalSpent(tripData, destinationData)).to.equal(
+      1980
+    );
   });
 });
