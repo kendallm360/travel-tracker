@@ -3,7 +3,9 @@ body {
   flex-direction: column;
   /* background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%); */
 }
-
+h2 {
+  font-size: small;
+}
 .title-bar {
   border: solid 3px red;
   height: 15vh;
@@ -22,11 +24,12 @@ body {
 
 .title {
   border: solid 3px brown;
-  height: 60%;
+  height: 45%;
+  text-align: center;
 }
 
 .total-spend {
-  border: solid 3px green;
+  /* border: solid 3px green; */
   height: 10%;
   display: flex;
   justify-content: flex-end;
@@ -51,4 +54,8 @@ body {
 .booking-options {
   border: solid 3px orange;
   width: 80%;
+}
+
+.hidden {
+  display: none;
 }
