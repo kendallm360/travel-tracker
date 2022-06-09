@@ -23,6 +23,7 @@ body {
 .title {
   border: solid 3px brown;
   height: 60%;
+  text-align: center;
 }
 
 .total-spend {
