@@ -15,11 +15,12 @@ let travelerData;
 let tripsData;
 let destinationsData;
 let currentUser;
-let travelersRepo;
-let tripsRepo;
-let destinationsRepo;
+let tripInstances;
+let destinationInstances;
 //QUERY SELECTORS
 const welcomeMessage = document.querySelector(".title");
+const totalSpend = document.querySelector(".total-spend");
+
 //FUNCTIONS
 const fetchUsers = () => {
   Promise.all([
@@ -35,6 +36,7 @@ const fetchUsers = () => {
       destinationsData = data[2].destinations;
       createRepositories();
       displayWelcome();
+      displayTotalPrice();
     })
     .catch((error) =>
       console.log(error, "Error is coming back from the server")
@@ -42,27 +44,34 @@ const fetchUsers = () => {
 };
 
 const createRepositories = () => {
-  //map over travelerData array to make all instances
-  console.log(travelerData);
-  console.log(typeof travelerData);
   let travelerInstances = travelerData.map((traveler) => {
     return new Traveler(traveler);
   });
   currentUser = travelerInstances[0];
-  //   travelersRepo = new Traveler(travelerData);
-  tripsRepo = new Trips(tripsData);
-  destinationsRepo = new Destinations(destinationsData);
+  tripInstances = tripsData.map((trip) => {
+    return new Trips(trip);
+  });
+  destinationInstances = destinationsData.map((destination) => {
+    return new Destinations(destination);
+  });
 };
 
 const displayWelcome = () => {
   welcomeMessage.innerHTML = `<h1>Welcome ${currentUser.returnFirstName()}<h1>`;
+};
+
+const displayTotalPrice = () => {
+  totalSpend.innerHTML = `<h2>You Spent ${currentUser.calculateTotalSpent(
+    tripInstances,
+    destinationInstances
+  )} on Trips</h2>`;
 };
 //HELPER FUNCTIONS
 
 //EVENT LISTENERS
 window.addEventListener("load", () => {
   fetchUsers();
-  createRepositories();
-  displayWelcome();
-  console.log(currentUser);
+  //   createRepositories();
+  //   displayWelcome();
+  //   console.log(currentUser);
 });
