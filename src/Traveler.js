@@ -35,18 +35,20 @@ export default class Traveler {
     return this.destinations;
   }
 
-  calculateTotalSpent(tripData, destinationData) {
+  calculateTotalSpent(tripData, destinationData, date) {
     let destinationsVisited = this.findMyDestinations(tripData);
-    let tripTotals = tripData.reduce((acc, trip) => {
-      if (destinationsVisited.includes(trip.destinationID)) {
-        let destinationCost = destinationData
-          .filter((destination) => trip.destinationID === destination.id)
-          .map((destination) => destination.estimatedLodgingCostPerDay)
-          .pop();
-        acc.push(trip.duration * destinationCost);
-      }
-      return acc;
-    }, []);
+    let tripTotals = tripData
+      .filter((trip) => trip.date >= date)
+      .reduce((acc, trip) => {
+        if (destinationsVisited.includes(trip.destinationID)) {
+          let destinationCost = destinationData
+            .filter((destination) => trip.destinationID === destination.id)
+            .map((destination) => destination.estimatedLodgingCostPerDay)
+            .pop();
+          acc.push(trip.duration * destinationCost);
+        }
+        return acc;
+      }, []);
     let totalSpent = tripTotals.reduce((acc, tripTotal) => {
       acc += tripTotal;
       return acc;
