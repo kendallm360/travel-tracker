@@ -1,11 +1,21 @@
+/* global */
+
 body {
   display: flex;
   flex-direction: column;
   /* background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%); */
 }
+
 h2 {
+  text-align: center;
+  /* font-size: larger; */
+}
+
+h3 {
   font-size: small;
 }
+
+/* Header */
 .title-bar {
   border: solid 3px red;
   height: 15vh;
@@ -35,6 +45,7 @@ h2 {
   justify-content: flex-end;
 }
 
+/* Main Section */
 .main-display {
   border: solid 3px blue;
   height: 80vh;
@@ -44,7 +55,11 @@ h2 {
 }
 
 .user-input {
+  background-color: #242424;
   border: solid 3px purple;
+  border-bottom-right-radius: 40px;
+  border-top-right-radius: 40px;
+  text-align: center;
   width: 20%;
   display: flex;
   flex-direction: column;
@@ -53,7 +68,34 @@ h2 {
 
 .booking-options {
   border: solid 3px orange;
+  overflow-y: scroll;
   width: 80%;
+}
+
+/* Trips Displays */
+.trip-display {
+  /* change text color before implementing code below */
+  /* background-color: black; */
+  border: solid 1px orange;
+}
+
+.past-stays-view,
+.upcoming-stays-view,
+.pending-stays-view {
+  overflow-y: scroll;
+}
+
+.destination-preview {
+  border-radius: 25px;
+  height: 15%;
+  width: 100%;
+}
+
+.destination-preview-cost {
+  text-align: center;
+}
+
+.destination-info {
 }
 
 .hidden {

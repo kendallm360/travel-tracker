@@ -15,14 +15,8 @@
         <button class="nav-buttons" id="pendingTrips">pending trips</button>
         <button class="nav-buttons" id="logout">logout</button>
       </nav>
-      <div class="title">
-        <!-- not suree if below will be interpolated or switched -->
-        <!-- <h1></h1> -->
-      </div>
-      <p class="total-spend">
-        <!-- not suree if below will be interpolated or switched -->
-        <!-- <h2></h2> -->
-      </p>
+      <div class="title"></div>
+      <p class="total-spend"></p>
     </header>
 
     <section class="main-display">
@@ -37,22 +31,37 @@
         <input type="text" name="numOfTravelersFilter" />
       </aside>
 
-      <section class="booking-options">options display here</section>
+      <section class="booking-options">
+        <div class="possible-destinations-display">
+          <p class="error-message">
+            Sorry, we are having trouble loading your destinations
+          </p>
+        </div>
+      </section>
       <section class="past-stays-view hidden">
         <div class="past-destinations-display">
-          <p>Sorry, we are having trouble loading your destinations</p>
+          <p class="error-message">
+            Sorry, we are having trouble loading your destinations
+          </p>
         </div>
       </section>
 
       <section class="upcoming-stays-view hidden">
         <div class="upcoming-destinations-display">
-          <p>Sorry, we are having trouble loading your destinations</p>
+          <p class="error-message">
+            Sorry, we are having trouble loading your destinations
+          </p>
         </div>
       </section>
 
       <section class="pending-stays-view hidden">
+        <!-- <p class="error-message">
+          You don't have any trips pending. Return to dashboard to make plans
+        </p> -->
         <div class="pending-destinations-display">
-          <p>Sorry, we are having trouble loading your destinations</p>
+          <p class="error-message">
+            Sorry, we are having trouble loading your destinations
+          </p>
         </div>
       </section>
     </section>

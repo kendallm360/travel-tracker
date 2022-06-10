@@ -11,7 +11,8 @@ describe("Traveler", () => {
   let traveler2;
   let traveler3;
   let traveler4;
-  let currentDate;
+  let startDate;
+  let endDate;
 
   beforeEach(() => {
     tripData = testData.trips;
@@ -21,7 +22,8 @@ describe("Traveler", () => {
     traveler2 = new Traveler(travelerData[1]);
     traveler3 = new Traveler(travelerData[2]);
     traveler4 = new Traveler(travelerData[3]);
-    currentDate = "2022/01/01";
+    startDate = "2022/01/01";
+    endDate = "2022/12/31";
   });
 
   it("Should be a function", () => {
@@ -60,24 +62,34 @@ describe("Traveler", () => {
 
   it("Should have a method that adds all trips to user's trips property", () => {
     traveler1.findMyTrips(tripData);
-    expect(traveler1.trips).to.deep.equal([1, 3]);
+    expect(traveler1.trips).to.deep.equal([1, 3, 4, 5]);
     traveler4.findMyTrips(tripData);
     expect(traveler4.trips).to.deep.equal([]);
   });
 
   it("Should have a method that adds all destinations to user's destinations property", () => {
     traveler1.findMyDestinations(tripData);
-    expect(traveler1.destinations).to.deep.equal([49, 22]);
+    expect(traveler1.destinations).to.deep.equal([49, 22, 12, 25]);
     traveler4.findMyDestinations(tripData);
     expect(traveler4.destinations).to.deep.equal([]);
   });
 
   it("Should have a method that calculates total spent on past trips", () => {
     expect(
-      traveler1.calculateTotalSpent(tripData, destinationData, currentDate)
-    ).to.equal(616);
-    // expect(traveler2.calculateTotalSpent(tripData, destinationData)).to.equal(
-    //   1980
-    // );
+      traveler1.calculateTotalSpent(
+        tripData,
+        destinationData,
+        startDate,
+        endDate
+      )
+    ).to.equal(726);
+    expect(
+      traveler2.calculateTotalSpent(
+        tripData,
+        destinationData,
+        startDate,
+        endDate
+      )
+    ).to.equal(3124);
   });
 });

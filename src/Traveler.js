@@ -35,10 +35,12 @@ export default class Traveler {
     return this.destinations;
   }
 
-  calculateTotalSpent(tripData, destinationData, date) {
+  calculateTotalSpent(tripData, destinationData, yearStart, yearEnd) {
     let destinationsVisited = this.findMyDestinations(tripData);
     let tripTotals = tripData
-      .filter((trip) => trip.date >= date)
+      .filter((trip) => trip.userID === this.id)
+      .filter((trip) => trip.date >= yearStart)
+      .filter((trip) => trip.date <= yearEnd)
       .reduce((acc, trip) => {
         if (destinationsVisited.includes(trip.destinationID)) {
           let destinationCost = destinationData
