@@ -19,6 +19,7 @@ let tripInstances;
 let destinationInstances;
 let currentDate;
 let firstOfYear;
+let lastOfYear;
 let pastTrips;
 let upcomingTrips;
 let pendingTrips;
@@ -65,6 +66,7 @@ const fetchUsers = () => {
       displayWelcome();
       currentDate = new Date().toISOString().split("T")[0].split("-").join("/");
       setCurrentYear();
+      setCurrentYear2();
       displayTotalPrice();
       displayPossibleDestinations();
     })
@@ -257,6 +259,17 @@ const setCurrentYear = () => {
   currentFirst.push("01");
   firstOfYear = currentFirst.join("/");
   return firstOfYear;
+};
+
+const setCurrentYear2 = () => {
+  const currentYear = currentDate.split("/")[0];
+  let currentLast = [];
+  currentLast.push(currentYear);
+  currentLast.push("12");
+  currentLast.push("31");
+  lastOfYear = currentLast.join("/");
+  console.log(lastOfYear);
+  return lastOfYear;
 };
 
 const sortTripsLeastRecent = () => {
