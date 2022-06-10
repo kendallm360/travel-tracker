@@ -66,8 +66,8 @@ const fetchUsers = () => {
       createRepositories();
       displayWelcome();
       currentDate = new Date().toISOString().split("T")[0].split("-").join("/");
-      setCurrentYear();
-      setCurrentYear2();
+      declareStartOfYear();
+      declareLastOfYear();
       displayTotalPrice();
       displayPossibleDestinations();
     })
@@ -241,7 +241,7 @@ const displayPastDestinations = () => {
   pastDestinationList.innerHTML = pastDestinations;
 };
 
-const setCurrentYear = () => {
+const declareStartOfYear = () => {
   const currentYear = currentDate.split("/")[0];
   let currentFirst = [];
   currentFirst.push(currentYear);
@@ -251,7 +251,7 @@ const setCurrentYear = () => {
   return firstOfYear;
 };
 
-const setCurrentYear2 = () => {
+const declareLastOfYear = () => {
   const currentYear = currentDate.split("/")[0];
   let currentLast = [];
   currentLast.push(currentYear);
