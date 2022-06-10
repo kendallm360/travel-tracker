@@ -32,7 +32,15 @@ const bookingOptions = document.querySelector(".booking-options");
 const pastTripsView = document.querySelector(".past-stays-view");
 const upcomingTripsView = document.querySelector(".upcoming-stays-view");
 const pendingTripsView = document.querySelector(".pending-stays-view");
-const destinationList = document.querySelector(".pending-destinations-display");
+const pastDestinationList = document.querySelector(
+  ".past-destinations-display"
+);
+const upcomingDestinationList = document.querySelector(
+  ".upcoming-destinations-display"
+);
+const pendingDestinationList = document.querySelector(
+  ".pending-destinations-display"
+);
 
 //FUNCTIONS
 const fetchUsers = () => {
@@ -62,7 +70,7 @@ const createRepositories = () => {
   let travelerInstances = travelerData.map((traveler) => {
     return new Traveler(traveler);
   });
-  currentUser = travelerInstances[1];
+  currentUser = travelerInstances[46];
   tripInstances = tripsData.map((trip) => {
     return new Trips(trip);
   });
@@ -99,6 +107,7 @@ const displayDashboard = () => {
   bookingOptions.classList.remove("hidden");
   pastTripsView.classList.add("hidden");
   upcomingTripsView.classList.add("hidden");
+  pendingTripsView.classList.add("hidden");
 };
 
 const displayPastTrips = () => {
@@ -110,10 +119,29 @@ const displayPastTrips = () => {
   pastTripsView.classList.remove("hidden");
   //code below will be interpolated instead of returned
   const pastTrips = tripInstances
+    .filter((trip) => trip.userID === currentUser.id)
     .filter((trip) => trip.status === "approved")
     .filter((trip) => trip.date < currentDate)
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
+    // .sort((a, b) => new Date(b.date) - new Date(a.date));
+    .map((trip) => trip.destinationID);
   console.log(pastTrips);
+  //display past trips
+  const displayPastDestinations = destinationInstances
+    .filter((place) => pastTrips.includes(place.id))
+    .map((place) => {
+      const tripDisplay = `
+    <div class="trip-display" id="${place.id}" role="button">
+      <h2>${place.destination}</h2>
+       <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
+       <div class="destination-info-preview">
+         <p class="meal-preview-cost">$${place.estimatedLodgingCostPerDay}</p>
+       </div>
+     </div>
+      `;
+      return tripDisplay;
+    })
+    .join("");
+  pastDestinationList.innerHTML = displayPastDestinations;
 };
 
 const displayUpcomingTrips = () => {
@@ -122,11 +150,33 @@ const displayUpcomingTrips = () => {
   pastTripsView.classList.add("hidden");
   pendingTripsView.classList.add("hidden");
   upcomingTripsView.classList.remove("hidden");
+  //finding trips
   const upcomingTrips = tripInstances
+    .filter((trip) => trip.userID === currentUser.id)
+
     .filter((trip) => trip.status === "approved")
     .filter((trip) => trip.date > currentDate)
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
+    // .sort((a, b) => new Date(b.date) - new Date(a.date));
+    .map((trip) => trip.destinationID);
+
   console.log(upcomingTrips);
+  //displaying the pics
+  const displayUpcomingDestinations = destinationInstances
+    .filter((place) => upcomingTrips.includes(place.id))
+    .map((place) => {
+      const tripDisplay = `
+      <div class="trip-display" id="${place.id}" role="button">
+        <h2>${place.destination}</h2>
+         <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
+         <div class="destination-info-preview">
+           <p class="meal-preview-cost">$${place.estimatedLodgingCostPerDay}</p>
+         </div>
+       </div>
+        `;
+      return tripDisplay;
+    })
+    .join("");
+  upcomingDestinationList.innerHTML = displayUpcomingDestinations;
 };
 
 const displayPendingTrips = () => {
@@ -137,21 +187,22 @@ const displayPendingTrips = () => {
   pendingTripsView.classList.remove("hidden");
   //finding trips
   const pendingTrips = tripInstances
+    .filter((trip) => trip.userID === currentUser.id)
     .filter((trip) => trip.status === "pending")
     // .sort((a, b) => new Date(b.date) - new Date(a.date));
     .map((trip) => trip.destinationID);
-  //   console.log(pendingTrips);
-  const destinationList = document.querySelector(
-    ".pending-destinations-display"
-  );
+  console.log(pendingTrips);
+
+  //displaying the pics
+
   const displayDestinations = destinationInstances
     .filter((place) => pendingTrips.includes(place.id))
     .map((place) => {
       const tripDisplay = `
       <div class="trip-display" id="${place.id}" role="button">
+        <h2>${place.destination}</h2>
          <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
          <div class="destination-info-preview">
-           <h2>${place.name}</h2>
            <p class="meal-preview-cost">$${place.estimatedLodgingCostPerDay}</p>
          </div>
        </div>
@@ -159,9 +210,7 @@ const displayPendingTrips = () => {
       return tripDisplay;
     })
     .join("");
-  // const
-  destinationList.innerHTML = displayDestinations;
-  //   console.log(pendingTrips);
+  pendingDestinationList.innerHTML = displayDestinations;
 };
 
 //HELPER FUNCTIONS
