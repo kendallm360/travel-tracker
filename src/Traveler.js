@@ -51,7 +51,6 @@ export default class Traveler {
         }
         return acc;
       }, []);
-    // console.log(tripTotals);
     let totalSpent = tripTotals.reduce((acc, tripTotal) => {
       acc += tripTotal;
       return acc;

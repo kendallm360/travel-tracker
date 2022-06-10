@@ -6,6 +6,7 @@ import Traveler from "./Traveler";
 import Trips from "./Trips";
 import Destinations from "./Destinations";
 
+import { findTrips } from "./util";
 //IMAGES
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import "./images/turing-logo.png";
@@ -79,7 +80,7 @@ const createRepositories = () => {
   let travelerInstances = travelerData.map((traveler) => {
     return new Traveler(traveler);
   });
-  currentUser = travelerInstances[46];
+  currentUser = travelerInstances[2];
   tripInstances = tripsData.map((trip) => {
     return new Trips(trip);
   });
@@ -97,7 +98,8 @@ const displayTotalPrice = () => {
   totalSpend.innerHTML = `<h3>You Spent ${currentUser.calculateTotalSpent(
     tripInstances,
     destinationInstances,
-    firstOfYear
+    firstOfYear,
+    lastOfYear
   )} on Trips</h3>`;
 };
 
@@ -160,7 +162,13 @@ const displayPossibleDestinations = () => {
 };
 
 const displayPendingDestinations = () => {
-  findPendingTrips();
+  let pendingTrips = findTrips(
+    tripInstances,
+    currentUser.id,
+    "pending",
+    currentDate,
+    "after"
+  );
   const pendingDestinations = destinationInstances
     .filter((place) => pendingTrips.includes(place.id))
     .map((place) => {
@@ -180,7 +188,13 @@ const displayPendingDestinations = () => {
 };
 
 const displayUpcomingDestinations = () => {
-  findUpcomingTrips();
+  let upcomingTrips = findTrips(
+    tripInstances,
+    currentUser.id,
+    "approved",
+    currentDate,
+    "after"
+  );
   //displaying the pics
   const upcomingDestinations = destinationInstances
     .filter((place) => upcomingTrips.includes(place.id))
@@ -201,7 +215,13 @@ const displayUpcomingDestinations = () => {
 };
 
 const displayPastDestinations = () => {
-  findPastTrips();
+  let pastTrips = findTrips(
+    tripInstances,
+    currentUser.id,
+    "approved",
+    currentDate,
+    "before"
+  );
   //display past trips
   const pastDestinations = destinationInstances
     .filter((place) => pastTrips.includes(place.id))
@@ -219,36 +239,6 @@ const displayPastDestinations = () => {
     })
     .join("");
   pastDestinationList.innerHTML = pastDestinations;
-};
-
-const findPastTrips = () => {
-  pastTrips = tripInstances
-    .filter((trip) => trip.userID === currentUser.id)
-    .filter((trip) => trip.status === "approved")
-    .filter((trip) => trip.date < currentDate)
-    // .sort((a, b) => new Date(b.date) - new Date(a.date));
-    .map((trip) => trip.destinationID);
-  console.log(pastTrips);
-  return pastTrips;
-};
-
-const findUpcomingTrips = () => {
-  upcomingTrips = tripInstances
-    .filter((trip) => trip.userID === currentUser.id)
-    .filter((trip) => trip.status === "approved")
-    .filter((trip) => trip.date > currentDate)
-    // .sort((a, b) => new Date(b.date) - new Date(a.date));
-    .map((trip) => trip.destinationID);
-  return upcomingTrips;
-};
-
-const findPendingTrips = () => {
-  pendingTrips = tripInstances
-    .filter((trip) => trip.userID === currentUser.id)
-    .filter((trip) => trip.status === "pending")
-    // .sort((a, b) => b.date - a.date)
-    .map((trip) => trip.destinationID);
-  return pendingTrips;
 };
 
 const setCurrentYear = () => {

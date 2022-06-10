@@ -14,6 +14,7 @@ h2 {
 h3 {
   font-size: small;
 }
+
 /* Header */
 .title-bar {
   border: solid 3px red;
@@ -89,6 +90,7 @@ h3 {
   height: 15%;
   width: 100%;
 }
+
 .destination-preview-cost {
   text-align: center;
 }
