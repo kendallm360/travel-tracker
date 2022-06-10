@@ -99,11 +99,11 @@ const displayTotalPrice = () => {
     )
   );
 
-  totalSpend.innerHTML = `<h2>You Spent ${currentUser.calculateTotalSpent(
+  totalSpend.innerHTML = `<h3>You Spent ${currentUser.calculateTotalSpent(
     tripInstances,
     destinationInstances,
     firstOfYear
-  )} on Trips</h2>`;
+  )} on Trips</h3>`;
 };
 
 const displayDashboard = () => {
@@ -138,8 +138,8 @@ const displayPastTrips = () => {
     <div class="trip-display" id="${place.id}" role="button">
       <h2>${place.destination}</h2>
        <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
-       <div class="destination-info-preview">
-         <p class="meal-preview-cost">$${place.estimatedLodgingCostPerDay}</p>
+       <div class="destination-info">
+         <p class="destination-preview-cost">This experience was $${place.estimatedLodgingCostPerDay} per night</p>
        </div>
      </div>
       `;
@@ -170,8 +170,8 @@ const displayUpcomingTrips = () => {
       <div class="trip-display" id="${place.id}" role="button">
         <h2>${place.destination}</h2>
          <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
-         <div class="destination-info-preview">
-           <p class="meal-preview-cost">$${place.estimatedLodgingCostPerDay}</p>
+         <div class="destination-info">
+           <p class="destination-preview-cost">This experience will be $${place.estimatedLodgingCostPerDay} per night</p>
          </div>
        </div>
         `;
@@ -201,8 +201,8 @@ const displayPendingTrips = () => {
       <div class="trip-display" id="${place.id}" role="button">
         <h2>${place.destination}</h2>
          <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
-         <div class="destination-info-preview">
-           <p class="meal-preview-cost">$${place.estimatedLodgingCostPerDay}</p>
+         <div class="destination-info">
+           <p class="destination-preview-cost">This experience will be $${place.estimatedLodgingCostPerDay} per night</p>
          </div>
        </div>
         `;
@@ -223,8 +223,8 @@ const displayPossibleDestinations = () => {
       <div class="trip-display" id="${place.id}" role="button">
         <h2>${place.destination}</h2>
          <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
-         <div class="destination-info-preview">
-           <p class="meal-preview-cost">$${place.estimatedLodgingCostPerDay}</p>
+         <div class="destination-info">
+           <p class="destination-preview-cost">This experience only costs $${place.estimatedLodgingCostPerDay} per night</p>
          </div>
        </div>
         `;
