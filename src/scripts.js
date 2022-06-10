@@ -49,6 +49,9 @@ const pendingDestinationList = document.querySelector(
 const possibleDestinationList = document.querySelector(
   ".possible-destinations-display"
 );
+const dateInput = document.querySelector(".date-filter");
+const durationInput = document.querySelector(".duration-filter");
+const travelersInput = document.querySelector(".travelers-filter");
 
 //FUNCTIONS
 const fetchUsers = () => {
@@ -137,6 +140,7 @@ const displayPendingTrips = () => {
   upcomingTripsView.classList.add("hidden");
   pendingTripsView.classList.remove("hidden");
   displayPendingDestinations();
+  console.log(durationInput.value);
 };
 
 //HELPER FUNCTIONS
@@ -292,3 +296,6 @@ upcomingTripsButton.addEventListener("click", () => {
 pendingTripsButton.addEventListener("click", () => {
   displayPendingTrips();
 });
+// dateInput.addEventListener("", () => {
+
+// })

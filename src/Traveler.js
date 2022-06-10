@@ -58,4 +58,30 @@ export default class Traveler {
     let agentFee = totalSpent * 0.1;
     return totalSpent + agentFee;
   }
+
+  //i need to estimate how much a proposed trip will cost
+  //so first i need to figure which destination ids is chosen
+  //the proposed trip will have a destination selected
+  //
+  //formula is destination cost per day * trip duration
+  //add flight to that product.
+  //get 10% of that total and add it on
+  //multiply by number of travelers
+  //add up all sums
+  estimateTripTotal(tripData, destinationData) {
+    let estTotal = tripData
+      .filter((trip) => trip.userID === this.id)
+      .reduce((acc, trip) => {
+        let destinationChosen = destinationData.find(
+          (destination) => destination.id === trip.destinationID
+        );
+        acc =
+          (trip.duration * destinationChosen.estimatedLodgingCostPerDay +
+            destinationChosen.estimatedFlightCostPerPerson) *
+          trip.travelers;
+        let agentFee = acc * 0.1;
+        return acc + agentFee;
+      }, 0);
+    return estTotal;
+  }
 }
