@@ -18,6 +18,7 @@ let currentUser;
 let tripInstances;
 let destinationInstances;
 let currentDate;
+let firstOfYear;
 
 //QUERY SELECTORS
 const welcomeMessage = document.querySelector(".title");
@@ -31,6 +32,7 @@ const bookingOptions = document.querySelector(".booking-options");
 const pastTripsView = document.querySelector(".past-stays-view");
 const upcomingTripsView = document.querySelector(".upcoming-stays-view");
 const pendingTripsView = document.querySelector(".pending-stays-view");
+const destinationList = document.querySelector(".pending-destinations-display");
 
 //FUNCTIONS
 const fetchUsers = () => {
@@ -47,10 +49,9 @@ const fetchUsers = () => {
       destinationsData = data[2].destinations;
       createRepositories();
       displayWelcome();
-      displayTotalPrice();
-      //   console.log(new Date().toISOString().split("T")[0]);
       currentDate = new Date().toISOString().split("T")[0].split("-").join("/");
-      console.log(currentDate);
+      setCurrentYear();
+      displayTotalPrice();
     })
     .catch((error) =>
       console.log(error, "Error is coming back from the server")
@@ -61,7 +62,7 @@ const createRepositories = () => {
   let travelerInstances = travelerData.map((traveler) => {
     return new Traveler(traveler);
   });
-  currentUser = travelerInstances[0];
+  currentUser = travelerInstances[1];
   tripInstances = tripsData.map((trip) => {
     return new Trips(trip);
   });
@@ -76,9 +77,20 @@ const displayWelcome = () => {
 };
 
 const displayTotalPrice = () => {
+  //   console.log(test);
+  console.log(firstOfYear);
+  console.log(
+    currentUser.calculateTotalSpent(
+      tripInstances,
+      destinationInstances,
+      firstOfYear
+    )
+  );
+
   totalSpend.innerHTML = `<h2>You Spent ${currentUser.calculateTotalSpent(
     tripInstances,
-    destinationInstances
+    destinationInstances,
+    firstOfYear
   )} on Trips</h2>`;
 };
 
@@ -123,13 +135,47 @@ const displayPendingTrips = () => {
   pastTripsView.classList.add("hidden");
   upcomingTripsView.classList.add("hidden");
   pendingTripsView.classList.remove("hidden");
+  //finding trips
   const pendingTrips = tripInstances
     .filter((trip) => trip.status === "pending")
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
-  console.log(pendingTrips);
+    // .sort((a, b) => new Date(b.date) - new Date(a.date));
+    .map((trip) => trip.destinationID);
+  //   console.log(pendingTrips);
+  const destinationList = document.querySelector(
+    ".pending-destinations-display"
+  );
+  const displayDestinations = destinationInstances
+    .filter((place) => pendingTrips.includes(place.id))
+    .map((place) => {
+      const tripDisplay = `
+      <div class="trip-display" id="${place.id}" role="button">
+         <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
+         <div class="destination-info-preview">
+           <h2>${place.name}</h2>
+           <p class="meal-preview-cost">$${place.estimatedLodgingCostPerDay}</p>
+         </div>
+       </div>
+        `;
+      return tripDisplay;
+    })
+    .join("");
+  // const
+  destinationList.innerHTML = displayDestinations;
+  //   console.log(pendingTrips);
 };
 
 //HELPER FUNCTIONS
+
+const setCurrentYear = () => {
+  const currentYear = currentDate.split("/")[0];
+  let currentFirst = [];
+  currentFirst.push(currentYear);
+  currentFirst.push("01");
+  currentFirst.push("01");
+  firstOfYear = currentFirst.join("/");
+  return firstOfYear;
+};
+
 const sortTripsLeastRecent = () => {
   const tripsSorted = tripInstances.sort(
     (a, b) => new Date(a.date) - new Date(b.date)
