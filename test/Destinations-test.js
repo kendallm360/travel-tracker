@@ -60,10 +60,10 @@ describe("Destinations", () => {
       "No destination has been provided"
     );
     expect(destination4.estimatedLodgingCostPerDay).to.equal(
-      "No lodging cost have been provided"
+      "No lodging costs have been provided"
     );
     expect(destination4.estimatedFlightCostPerPerson).to.equal(
-      "No flight cost have been provided"
+      "No flight costs have been provided"
     );
     expect(destination4.image).to.equal("No image has been provided");
     expect(destination4.alt).to.equal("No alt tag has been provided");

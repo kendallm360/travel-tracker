@@ -66,29 +66,41 @@ const fetchUsers = () => {
       destinationsData = data[2].destinations;
       createRepositories();
       setInitialDisplay();
+      // console.log(currentUser.trips);
     })
     .catch((error) =>
       console.log(error, "Error is coming back from the server")
     );
 };
 //apiname, formdata
-const postAllData = (apiName, formData) => {
-  //^check args
+const postAllData = (event) => {
+  console.log("steve");
   let data = {
-    id: "currentUser.id",
+    id: 7001,
     userID: currentUser.id,
-    //use event.target.id below, since the user's click will determine???
-    destinationID: "",
+    destinationID: parseInt(event.target.id),
     travelers: travelersInput.value,
-    date: dateInput.value,
+    date: dateInput.value.split("-").join("/"),
     duration: durationInput.value,
     status: "pending",
     suggestedActivities: [],
   };
-  postData("trips", data);
+  postData(data)
+    .then((response) => console.log(response))
+    .catch((e) => {
+      console.error(e.message);
+    });
 };
 
 //FUNCTIONS
+
+const bookDestination = (event) => {
+  //if everything has a value do this
+  console.log(event);
+  postAllData(event);
+  //else should show the error message
+};
+
 const createRepositories = () => {
   currentDate = new Date().toISOString().split("T")[0].split("-").join("/");
   travelerInstances = travelerData.map((traveler) => {
@@ -101,6 +113,7 @@ const createRepositories = () => {
   destinationInstances = destinationsData.map((destination) => {
     return new Destinations(destination);
   });
+  console.log(currentUser.trips);
 };
 
 const displayWelcome = () => {
@@ -150,7 +163,6 @@ const displayPendingTrips = () => {
   upcomingTripsView.classList.add("hidden");
   pendingTripsView.classList.remove("hidden");
   displayPendingDestinations();
-  console.log(durationInput.value);
 };
 
 //HELPER FUNCTIONS
@@ -174,7 +186,7 @@ const displayPossibleDestinations = () => {
           <h2>${place.destination}</h2>
           <p class="destination-hotel-cost">Estimate Lodging Cost $${place.estimatedLodgingCostPerDay}/<span>night</span></p>
           <p class="destination-flight-cost">Estimated Flight Cost $${place.estimatedFlightCostPerPerson}/<span>person</span></p>
-          <button class="nav-buttons" id="book${place.id}">Book</button>
+          <button class="nav-buttons book-button" id="${place.id}">Book</button>
         </div>
         <div class="trip-image">
           <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
@@ -296,6 +308,12 @@ const declareLastOfYear = () => {
   return lastOfYear;
 };
 
+const possibleDestinationHandler = (event) => {
+  if (event.target.classList.contains("book-button")) {
+    bookDestination(event);
+  }
+};
+
 // const sortTripsLeastRecent = () => {
 //   const tripsSorted = tripInstances.sort(
 //     (a, b) => new Date(a.date) - new Date(b.date)
@@ -309,7 +327,6 @@ const declareLastOfYear = () => {
 //   );
 //   return tripsSorted;
 // };
-
 //EVENT LISTENERS
 window.addEventListener("load", () => {
   fetchUsers();
@@ -326,6 +343,4 @@ upcomingTripsButton.addEventListener("click", () => {
 pendingTripsButton.addEventListener("click", () => {
   displayPendingTrips();
 });
-// dateInput.addEventListener("", () => {
-
-// })
+possibleDestinationList.addEventListener("click", possibleDestinationHandler);

@@ -5,9 +5,9 @@ const fetchData = (apiName) => {
   //   .catch(err)
 };
 
-const postData = (apiName, formData) => {
+const postData = (formData) => {
   //check params
-  let url = `http://localhost:3001/api/v1/${apiName}`;
+  let url = `http://localhost:3001/api/v1/trips`;
   return fetch(url, {
     method: "POST",
     body: JSON.stringify(formData),
