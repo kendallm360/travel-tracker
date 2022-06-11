@@ -7,11 +7,12 @@ import {
 
 export default class Traveler {
   constructor(travelerData) {
-    this.id = travelerData.id;
+    this.id = travelerData.id || "No ID has been provided";
     this.name = travelerData.name;
-    this.travelerType = travelerData.travelerType;
-    this.trips = undefined;
-    this.destinations = undefined;
+    this.travelerType =
+      travelerData.travelerType || "No travelerType has been provided";
+    this.trips = [] || "No trips have been provided";
+    this.destinations = [];
     this.userName = `traveler${this.id}`;
     this.password = "travel";
   }
@@ -25,19 +26,27 @@ export default class Traveler {
   }
 
   findMyTrips(tripData) {
-    let trips = tripData
-      .filter((trip) => trip.userID === this.id)
-      .map((trip) => trip.id);
-    this.trips = trips;
-    return this.trips;
+    if (tripData.length === 0) {
+      return "No trips are available";
+    } else {
+      let trips = tripData
+        .filter((trip) => trip.userID === this.id)
+        .map((trip) => trip.id);
+      this.trips = trips;
+      return this.trips;
+    }
   }
 
   findMyDestinations(tripData) {
-    let destinations = tripData
-      .filter((trip) => trip.userID === this.id)
-      .map((trip) => trip.destinationID);
-    this.destinations = destinations;
-    return this.destinations;
+    if (tripData.length === 0) {
+      return "No trips are available";
+    } else {
+      let destinations = tripData
+        .filter((trip) => trip.userID === this.id)
+        .map((trip) => trip.destinationID);
+      this.destinations = destinations;
+      return this.destinations;
+    }
   }
 
   calculateAnnualTotalSpend(tripData, destinationData, yearStart, yearEnd) {

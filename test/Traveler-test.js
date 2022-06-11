@@ -5,7 +5,9 @@ import testData from "./MockData/MockData";
 
 describe("Traveler", () => {
   let tripData;
+  let tripData2;
   let destinationData;
+  let destinationData2;
   let travelerData;
   let traveler1;
   let traveler2;
@@ -16,7 +18,9 @@ describe("Traveler", () => {
 
   beforeEach(() => {
     tripData = testData.trips;
+    tripData2 = [];
     destinationData = testData.destinations;
+    destinationData2 = [];
     travelerData = testData.travelers;
     traveler1 = new Traveler(travelerData[0]);
     traveler2 = new Traveler(travelerData[1]);
@@ -46,6 +50,13 @@ describe("Traveler", () => {
     expect(traveler3.travelerType).to.equal("shopper");
   });
 
+  it("Should return an error if any property information is missing", () => {
+    expect(traveler4.id).to.equal("No ID has been provided");
+    expect(traveler4.travelerType).to.equal(
+      "No travelerType has been provided"
+    );
+  });
+
   it("Should have a method that returns the user's first name", () => {
     expect(traveler3.returnFirstName()).to.equal("Sibby");
     expect(traveler2.returnFirstName()).to.equal("Rachael");
@@ -61,10 +72,15 @@ describe("Traveler", () => {
   //   });
 
   it("Should have a method that adds all trips to user's trips property", () => {
-    traveler1.findMyTrips(tripData);
+    expect(traveler1.findMyTrips(tripData)).to.deep.equal([1, 3, 4, 5]);
     expect(traveler1.trips).to.deep.equal([1, 3, 4, 5]);
-    traveler4.findMyTrips(tripData);
+    expect(traveler4.findMyTrips(tripData)).to.deep.equal([]);
     expect(traveler4.trips).to.deep.equal([]);
+  });
+
+  it("Should return an error if no trip data is found", () => {
+    expect(traveler1.trips).to.deep.equal([]);
+    expect(traveler1.findMyTrips(tripData2)).to.equal("No trips are available");
   });
 
   it("Should have a method that adds all destinations to user's destinations property", () => {
@@ -74,7 +90,14 @@ describe("Traveler", () => {
     expect(traveler4.destinations).to.deep.equal([]);
   });
 
-  it.only("Should have a method that calculates total spent on past trips", () => {
+  it("Should return an error if no destination data is found", () => {
+    expect(traveler1.destinations).to.deep.equal([]);
+    expect(traveler1.findMyDestinations(destinationData2)).to.equal(
+      "No trips are available"
+    );
+  });
+
+  it("Should have a method that calculates total spent on past trips", () => {
     expect(
       traveler1.calculateAnnualTotalSpend(
         tripData,

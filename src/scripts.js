@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 //IMPORTS
 // An example of how you tell webpack to use a CSS (SCSS) file
 import "./css/styles.css";
@@ -52,7 +53,7 @@ const dateInput = document.querySelector(".date-filter");
 const durationInput = document.querySelector(".duration-filter");
 const travelersInput = document.querySelector(".travelers-filter");
 
-//FUNCTIONS
+//FETCH CALLS
 const fetchUsers = () => {
   Promise.all([
     fetchData("travelers"),
@@ -87,6 +88,7 @@ const postAllData = (apiName, formData) => {
   postData("trips", data);
 };
 
+//FUNCTIONS
 const createRepositories = () => {
   currentDate = new Date().toISOString().split("T")[0].split("-").join("/");
   travelerInstances = travelerData.map((traveler) => {
@@ -106,12 +108,12 @@ const displayWelcome = () => {
 };
 
 const displayTotalPrice = () => {
-  totalSpend.innerHTML = `<h3>You Spent ${currentUser.calculateAnnualTotalSpend(
+  totalSpend.innerHTML = `<p>You Spent ${currentUser.calculateAnnualTotalSpend(
     tripInstances,
     destinationInstances,
     firstOfYear,
     lastOfYear
-  )} on Trips this year</h3>`;
+  )} on Trips this year</p>`;
 };
 
 const displayDashboard = () => {
@@ -152,7 +154,6 @@ const displayPendingTrips = () => {
 };
 
 //HELPER FUNCTIONS
-
 const setInitialDisplay = () => {
   displayWelcome();
   declareStartOfYear();
@@ -295,19 +296,19 @@ const declareLastOfYear = () => {
   return lastOfYear;
 };
 
-const sortTripsLeastRecent = () => {
-  const tripsSorted = tripInstances.sort(
-    (a, b) => new Date(a.date) - new Date(b.date)
-  );
-  return tripsSorted;
-};
+// const sortTripsLeastRecent = () => {
+//   const tripsSorted = tripInstances.sort(
+//     (a, b) => new Date(a.date) - new Date(b.date)
+//   );
+//   return tripsSorted;
+// };
 
-const sortTripsMostRecent = () => {
-  const tripsSorted = tripInstances.sort(
-    (a, b) => new Date(b.date) - new Date(a.date)
-  );
-  return tripsSorted;
-};
+// const sortTripsMostRecent = () => {
+//   const tripsSorted = tripInstances.sort(
+//     (a, b) => new Date(b.date) - new Date(a.date)
+//   );
+//   return tripsSorted;
+// };
 
 //EVENT LISTENERS
 window.addEventListener("load", () => {

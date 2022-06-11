@@ -1,12 +1,15 @@
 export default class Trips {
   constructor(tripData) {
-    this.id = tripData.id;
-    this.userID = tripData.userID;
-    this.destinationID = tripData.destinationID;
-    this.travelers = tripData.travelers;
-    this.date = tripData.date;
-    this.duration = tripData.duration;
-    this.status = tripData.status;
-    this.suggestedActivities = tripData.suggestedActivities;
+    this.id = tripData.id || "No ID has been provided";
+    this.userID = tripData.userID || "No userID has been provided";
+    this.destinationID =
+      tripData.destinationID || "No destinationId has been provided";
+    this.travelers = tripData.travelers || "No travelers have been provided";
+    this.date = tripData.date || "No date has been provided";
+    this.duration = tripData.duration || "No duration has been provided";
+    this.status = tripData.status || "No status has been provided";
+    this.suggestedActivities =
+      tripData.suggestedActivities ||
+      "No suggested activities have been provided";
   }
 }

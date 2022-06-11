@@ -53,6 +53,7 @@ span {
 
 .total-spend {
   height: 5%;
+  margin-right: 25px;
   display: flex;
   justify-content: flex-end;
 }
@@ -92,7 +93,6 @@ span {
 /* Trips Displays */
 .trip-display {
   border: solid 1px orange;
-  /* height: 15%; */
   width: 100%;
   display: flex;
   flex-direction: row;
