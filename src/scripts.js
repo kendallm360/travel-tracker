@@ -198,7 +198,7 @@ const displayPendingDestinations = () => {
     .filter((place) => pendingTrips.includes(place.id))
     .map((place) => {
       const tripDisplay = `
-      <section class="trip-display-alt" id="${place.id}">
+      <section class="trip-display" id="${place.id}">
         <div class="trip-info">
           <h2>${place.destination}</h2>
           <p class="destination-hotel-cost">Lodging Will Be $${place.estimatedLodgingCostPerDay}/<span>night</span></p>
@@ -228,7 +228,7 @@ const displayUpcomingDestinations = () => {
     .filter((place) => upcomingTrips.includes(place.id))
     .map((place) => {
       const tripDisplay = `
-      <section class="trip-display-alt" id="${place.id}">
+      <section class="trip-display" id="${place.id}">
         <div class="trip-info">
           <h2>${place.destination}</h2>
           <p class="destination-hotel-cost">Lodging Will Be $${place.estimatedLodgingCostPerDay}/<span>night</span></p>
@@ -258,7 +258,7 @@ const displayPastDestinations = () => {
     .filter((place) => pastTrips.includes(place.id))
     .map((place) => {
       const tripDisplay = `
-      <section class="trip-display-alt" id="${place.id}">
+      <section class="trip-display" id="${place.id}">
         <div class="trip-info">
           <h2>${place.destination}</h2>
           <p class="destination-hotel-cost">Lodging Was $${place.estimatedLodgingCostPerDay}/<span>night</span></p>

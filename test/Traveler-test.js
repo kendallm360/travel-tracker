@@ -74,9 +74,9 @@ describe("Traveler", () => {
     expect(traveler4.destinations).to.deep.equal([]);
   });
 
-  it("Should have a method that calculates total spent on past trips", () => {
+  it.only("Should have a method that calculates total spent on past trips", () => {
     expect(
-      traveler1.calculateTotalSpent(
+      traveler1.calculateAnnualTotalSpend(
         tripData,
         destinationData,
         startDate,
@@ -84,7 +84,7 @@ describe("Traveler", () => {
       )
     ).to.equal(726);
     expect(
-      traveler2.calculateTotalSpent(
+      traveler2.calculateAnnualTotalSpend(
         tripData,
         destinationData,
         startDate,

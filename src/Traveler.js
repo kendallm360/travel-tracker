@@ -1,4 +1,9 @@
 // import Trips from "./Trips";
+import {
+  calculateEachTripTotal,
+  calculateAllTripsTotal,
+  findUserTripsCurrentYear,
+} from "./util";
 
 export default class Traveler {
   constructor(travelerData) {
@@ -35,28 +40,20 @@ export default class Traveler {
     return this.destinations;
   }
 
-  calculateTotalSpent(tripData, destinationData, yearStart, yearEnd) {
-    let destinationsVisited = this.findMyDestinations(tripData);
-    let tripTotals = tripData
-      .filter((trip) => trip.userID === this.id)
-      .filter((trip) => trip.date >= yearStart)
-      .filter((trip) => trip.date <= yearEnd)
-      .reduce((acc, trip) => {
-        if (destinationsVisited.includes(trip.destinationID)) {
-          let destinationCost = destinationData
-            .filter((destination) => trip.destinationID === destination.id)
-            .map((destination) => destination.estimatedLodgingCostPerDay)
-            .pop();
-          acc.push(trip.duration * destinationCost);
-        }
-        return acc;
-      }, []);
-    let totalSpent = tripTotals.reduce((acc, tripTotal) => {
-      acc += tripTotal;
-      return acc;
-    }, 0);
-    let agentFee = totalSpent * 0.1;
-    return totalSpent + agentFee;
+  calculateAnnualTotalSpend(tripData, destinationData, yearStart, yearEnd) {
+    const destinationsVisited = this.findMyDestinations(tripData);
+    const filteredTrips = findUserTripsCurrentYear(
+      this.id,
+      tripData,
+      yearStart,
+      yearEnd
+    );
+    const eachTripTotal = calculateEachTripTotal(
+      filteredTrips,
+      destinationsVisited,
+      destinationData
+    );
+    return calculateAllTripsTotal(eachTripTotal);
   }
 
   estimateTripTotal(tripData, destinationData) {
