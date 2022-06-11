@@ -53,4 +53,19 @@ describe("Destinations", () => {
       "overview of city buildings with a clear sky"
     );
   });
+
+  it("Should return an error if no property information has been provided", () => {
+    expect(destination4.id).to.equal("No ID has been provided");
+    expect(destination4.destination).to.equal(
+      "No destination has been provided"
+    );
+    expect(destination4.estimatedLodgingCostPerDay).to.equal(
+      "No lodging cost have been provided"
+    );
+    expect(destination4.estimatedFlightCostPerPerson).to.equal(
+      "No flight cost have been provided"
+    );
+    expect(destination4.image).to.equal("No image has been provided");
+    expect(destination4.alt).to.equal("No alt tag has been provided");
+  });
 });

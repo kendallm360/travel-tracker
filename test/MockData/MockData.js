@@ -103,7 +103,7 @@ const testData = {
       suggestedActivities: [],
     },
     {
-      id: 9,
+      id: null,
       userID: undefined,
       destinationID: undefined,
       travelers: undefined,

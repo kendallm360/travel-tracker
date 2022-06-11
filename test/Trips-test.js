@@ -59,6 +59,7 @@ describe("Trips", () => {
   });
 
   it("Should return an error if any property's information has been provided", () => {
+    expect(trip4.id).to.equal("No ID has been provided");
     expect(trip4.userID).to.equal("No userID has been provided");
     expect(trip4.destinationID).to.equal("No destinationID has been provided");
     expect(trip4.travelers).to.equal("No travelers have been provided");
