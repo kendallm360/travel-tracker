@@ -93,7 +93,7 @@ describe("Traveler", () => {
     ).to.equal(3124);
   });
 
-  it.only("Should have a method that calculates a total estimate of a trips cost", () => {
+  it("Should have a method that calculates a total estimate of a trips cost", () => {
     expect(traveler3.estimateTripTotal(tripData, destinationData)).to.equal(
       6952
     );
