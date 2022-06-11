@@ -1,6 +1,8 @@
 /* global */
 
 body {
+  background-color: black;
+  color: orange;
   display: flex;
   flex-direction: column;
   /* background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%); */
@@ -17,37 +19,47 @@ h3 {
 
 /* Header */
 .title-bar {
-  border: solid 3px red;
+  /* background-image: url(./images/tropical-banner.jpg); */
+  background-color: darkgreen;
+  /* border: solid 3px red; */
   height: 15vh;
+  color: orange;
   width: 100vw;
   display: flex;
   flex-direction: column;
 }
 
+.nav-buttons {
+  background-color: black;
+  border-radius: 25px;
+  color: orange;
+  cursor: pointer;
+}
+
 .nav-bar {
-  border: solid 3px pink;
-  height: 20%;
+  /* border: solid 3px pink; */
+  height: 15%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
 .title {
-  border: solid 3px brown;
-  height: 45%;
+  /* border: solid 3px brown; */
+  height: 55%;
   text-align: center;
 }
 
 .total-spend {
   /* border: solid 3px green; */
-  height: 10%;
+  height: 5%;
   display: flex;
   justify-content: flex-end;
 }
 
 /* Main Section */
 .main-display {
-  border: solid 3px blue;
+  /* border: solid 3px blue; */
   height: 80vh;
   width: 100vw;
   display: flex;
@@ -56,7 +68,7 @@ h3 {
 
 .user-input {
   background-color: #242424;
-  border: solid 3px purple;
+  /* border: solid 3px purple; */
   border-bottom-right-radius: 40px;
   border-top-right-radius: 40px;
   text-align: center;

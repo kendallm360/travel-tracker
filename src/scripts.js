@@ -10,6 +10,7 @@ import { findTrips } from "./util";
 //IMAGES
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import "./images/turing-logo.png";
+// import ".images/tropical-banner.jpg";
 
 //GLOBAL VARIABLES
 let travelerData;
@@ -119,7 +120,7 @@ const displayTotalPrice = () => {
     destinationInstances,
     firstOfYear,
     lastOfYear
-  )} on Trips</h3>`;
+  )} on Trips this year</h3>`;
 };
 
 const displayDashboard = () => {
@@ -167,14 +168,14 @@ const displayPossibleDestinations = () => {
     .filter((place) => possibleTrips.includes(place.id))
     .map((place) => {
       const tripDisplay = `
-      <div class="trip-display" id="${place.id}" role="button">
+      <section class="trip-display" id="${place.id}">
         <h2>${place.destination}</h2>
          <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
          <div class="destination-info">
            <p class="destination-preview-cost">This experience only costs $${place.estimatedLodgingCostPerDay} per night</p>
            <button class="nav-buttons" id="book${place.id}">Book</button>
            </div>
-       </div>
+       </section>
         `;
       return tripDisplay;
     })
