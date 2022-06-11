@@ -17,14 +17,12 @@ let travelerData;
 let tripsData;
 let destinationsData;
 let currentUser;
+let travelerInstances;
 let tripInstances;
 let destinationInstances;
 let currentDate;
 let firstOfYear;
 let lastOfYear;
-let pastTrips;
-let upcomingTrips;
-let pendingTrips;
 
 //QUERY SELECTORS
 const welcomeMessage = document.querySelector(".title");
@@ -62,18 +60,11 @@ const fetchUsers = () => {
     fetchData("destinations"),
   ])
     .then((data) => {
-      //below can be moved into an external function to for DRYness
-      //   setLocalData(data);
       travelerData = data[0].travelers;
       tripsData = data[1].trips;
       destinationsData = data[2].destinations;
       createRepositories();
-      displayWelcome();
-      currentDate = new Date().toISOString().split("T")[0].split("-").join("/");
-      declareStartOfYear();
-      declareLastOfYear();
-      displayTotalPrice();
-      displayPossibleDestinations();
+      setInitialDisplay();
     })
     .catch((error) =>
       console.log(error, "Error is coming back from the server")
@@ -81,7 +72,7 @@ const fetchUsers = () => {
 };
 //apiname, formdata
 const postAllData = (apiName, formData) => {
-  //check args
+  //^check args
   let data = {
     id: "currentUser.id",
     userID: currentUser.id,
@@ -97,7 +88,8 @@ const postAllData = (apiName, formData) => {
 };
 
 const createRepositories = () => {
-  let travelerInstances = travelerData.map((traveler) => {
+  currentDate = new Date().toISOString().split("T")[0].split("-").join("/");
+  travelerInstances = travelerData.map((traveler) => {
     return new Traveler(traveler);
   });
   currentUser = travelerInstances[46];
@@ -107,7 +99,6 @@ const createRepositories = () => {
   destinationInstances = destinationsData.map((destination) => {
     return new Destinations(destination);
   });
-  currentDate = new Date();
 };
 
 const displayWelcome = () => {
@@ -115,7 +106,7 @@ const displayWelcome = () => {
 };
 
 const displayTotalPrice = () => {
-  totalSpend.innerHTML = `<h3>You Spent ${currentUser.calculateTotalSpent(
+  totalSpend.innerHTML = `<h3>You Spent ${currentUser.calculateAnnualTotalSpend(
     tripInstances,
     destinationInstances,
     firstOfYear,
@@ -161,6 +152,15 @@ const displayPendingTrips = () => {
 };
 
 //HELPER FUNCTIONS
+
+const setInitialDisplay = () => {
+  displayWelcome();
+  declareStartOfYear();
+  declareLastOfYear();
+  displayTotalPrice();
+  displayPossibleDestinations();
+};
+
 const displayPossibleDestinations = () => {
   const possibleTrips = tripInstances.map((trip) => trip.destinationID);
   //displaying the pics
@@ -292,7 +292,6 @@ const declareLastOfYear = () => {
   currentLast.push("12");
   currentLast.push("31");
   lastOfYear = currentLast.join("/");
-  console.log(lastOfYear);
   return lastOfYear;
 };
 
