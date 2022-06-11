@@ -102,6 +102,16 @@ const testData = {
       status: "pending",
       suggestedActivities: [],
     },
+    {
+      id: 9,
+      userID: undefined,
+      destinationID: undefined,
+      travelers: undefined,
+      date: undefined,
+      duration: undefined,
+      status: undefined,
+      suggestedActivities: undefined,
+    },
   ],
   destinations: [
     {
