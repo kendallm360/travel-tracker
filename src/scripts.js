@@ -100,7 +100,7 @@ const createRepositories = () => {
   let travelerInstances = travelerData.map((traveler) => {
     return new Traveler(traveler);
   });
-  currentUser = travelerInstances[2];
+  currentUser = travelerInstances[46];
   tripInstances = tripsData.map((trip) => {
     return new Trips(trip);
   });
@@ -169,12 +169,15 @@ const displayPossibleDestinations = () => {
     .map((place) => {
       const tripDisplay = `
       <section class="trip-display" id="${place.id}">
-        <h2>${place.destination}</h2>
-         <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
-         <div class="destination-info">
-           <p class="destination-preview-cost">This experience only costs $${place.estimatedLodgingCostPerDay} per night</p>
-           <button class="nav-buttons" id="book${place.id}">Book</button>
-           </div>
+        <div class="trip-info">
+          <h2>${place.destination}</h2>
+          <p class="destination-hotel-cost">Estimate Lodging Cost $${place.estimatedLodgingCostPerDay}/<span>night</span></p>
+          <p class="destination-flight-cost">Estimated Flight Cost $${place.estimatedFlightCostPerPerson}/<span>person</span></p>
+          <button class="nav-buttons" id="book${place.id}">Book</button>
+        </div>
+        <div class="trip-image">
+          <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
+        </div>
        </section>
         `;
       return tripDisplay;
@@ -195,13 +198,16 @@ const displayPendingDestinations = () => {
     .filter((place) => pendingTrips.includes(place.id))
     .map((place) => {
       const tripDisplay = `
-      <div class="trip-display" id="${place.id}" role="button">
-        <h2>${place.destination}</h2>
-         <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
-         <div class="destination-info">
-           <p class="destination-preview-cost">This experience will be $${place.estimatedLodgingCostPerDay} per night</p>
-         </div>
-       </div>
+      <section class="trip-display-alt" id="${place.id}">
+        <div class="trip-info">
+          <h2>${place.destination}</h2>
+          <p class="destination-hotel-cost">Lodging Will Be $${place.estimatedLodgingCostPerDay}/<span>night</span></p>
+          <p class="destination-flight-cost">Flights Will Be $${place.estimatedFlightCostPerPerson}/<span>person</span></p>
+        </div>
+        <div class="trip-image">
+          <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
+        </div>
+       </section>
         `;
       return tripDisplay;
     })
@@ -222,13 +228,16 @@ const displayUpcomingDestinations = () => {
     .filter((place) => upcomingTrips.includes(place.id))
     .map((place) => {
       const tripDisplay = `
-      <div class="trip-display" id="${place.id}" role="button">
-        <h2>${place.destination}</h2>
-         <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
-         <div class="destination-info">
-           <p class="destination-preview-cost">This experience will be $${place.estimatedLodgingCostPerDay} per night</p>
-         </div>
-       </div>
+      <section class="trip-display-alt" id="${place.id}">
+        <div class="trip-info">
+          <h2>${place.destination}</h2>
+          <p class="destination-hotel-cost">Lodging Will Be $${place.estimatedLodgingCostPerDay}/<span>night</span></p>
+          <p class="destination-flight-cost">Flights Will Be $${place.estimatedFlightCostPerPerson}/<span>person</span></p>
+        </div>
+        <div class="trip-image">
+          <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
+        </div>
+       </section>
         `;
       return tripDisplay;
     })
@@ -249,13 +258,16 @@ const displayPastDestinations = () => {
     .filter((place) => pastTrips.includes(place.id))
     .map((place) => {
       const tripDisplay = `
-    <div class="trip-display" id="${place.id}" role="button">
-      <h2>${place.destination}</h2>
-       <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
-       <div class="destination-info">
-         <p class="destination-preview-cost">This experience was $${place.estimatedLodgingCostPerDay} per night</p>
-       </div>
-     </div>
+      <section class="trip-display-alt" id="${place.id}">
+        <div class="trip-info">
+          <h2>${place.destination}</h2>
+          <p class="destination-hotel-cost">Lodging Was $${place.estimatedLodgingCostPerDay}/<span>night</span></p>
+          <p class="destination-flight-cost">Flights Were $${place.estimatedFlightCostPerPerson}/<span>person</span></p>
+        </div>
+        <div class="trip-image">
+          <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
+        </div>
+       </section>
       `;
       return tripDisplay;
     })
