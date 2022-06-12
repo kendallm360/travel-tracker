@@ -66,12 +66,8 @@ const fetchUsers = () => {
       destinationsData = data[2].destinations;
       createRepositories();
       setInitialDisplay();
-      console.log(tripsData.length);
     })
-    .catch(
-      (error) => showServerError(error)
-      // console.log(error, "Error is coming back from the server")
-    );
+    .catch((error) => showServerError(error));
 };
 //apiname, formdata
 const postAllData = (event) => {
@@ -95,24 +91,16 @@ const postAllData = (event) => {
 //FUNCTIONS
 
 const bookDestination = (event) => {
-  console.log("travelers", travelersInput.value);
-  console.log("date", dateInput.value);
-  console.log("currentdate", currentDate);
-  console.log("duration", durationInput.value);
-  if (
-    travelersInput.value >= 1 &&
-    dateInput.value.split("-").join("/") >= currentDate &&
-    durationInput.value >= 1
-  ) {
+  console.log(tripInstances.length, "length before");
+  let formCheck = handleUserInputErrors();
+  if (formCheck) {
     postAllData(event);
     fetchUsers();
+    console.log(tripInstances.length, "length after");
     clearForm();
-    // findTrips(tripInstances, currentUser.id, "pending", currentDate, "after");
     confirmPost();
-    // displayPendingDestinations();
     displayPendingTrips();
-  } else {
-    showErrorMessage();
+    console.log(tripInstances.length, "length last");
   }
 };
 
@@ -121,7 +109,7 @@ const createRepositories = () => {
   travelerInstances = travelerData.map((traveler) => {
     return new Traveler(traveler);
   });
-  currentUser = travelerInstances[45];
+  currentUser = travelerInstances[42];
   tripInstances = tripsData.map((trip) => {
     return new Trips(trip);
   });
@@ -338,16 +326,31 @@ const possibleDestinationHandler = (event) => {
   }
 };
 
-const showErrorMessage = () => {
-  alert(
-    "Make sure you have filled out the form completely and choose a destination"
-  );
+const handleUserInputErrors = () => {
+  if (dateInput.value.split("-").join("/") <= currentDate || !dateInput.value) {
+    alert("Make sure you select a future date and book a destination");
+    return false;
+  }
+  if (durationInput.value < 1 || !durationInput.value) {
+    alert(
+      "Make sure you add how many days you'd like to stay and book a destination"
+    );
+    return false;
+  }
+  if (travelersInput.value < 1 || !travelersInput.value) {
+    alert(
+      "Make sure you add a total number of travelers and book a destination"
+    );
+    return false;
+  } else {
+    return true;
+  }
 };
 
 const showServerError = (error) => {
   console.log(error);
   alert(
-    "😬OOOPS this problem is on us but you can help by ensuring you are running the local server😬"
+    "😬OOOPS looks like the local server is down. Try running the travel tracker API 😬"
   );
 };
 
