@@ -7,6 +7,7 @@ import { fetchData, postData } from "./apiCalls";
 import Traveler from "./Traveler";
 import Trips from "./Trips";
 import Destinations from "./Destinations";
+import domUpdates from "./domUpdates";
 
 import { findTrips } from "./util";
 //IMAGES
@@ -27,26 +28,10 @@ let firstOfYear;
 let lastOfYear;
 
 //QUERY SELECTORS
-const welcomeMessage = document.querySelector(".title");
-const totalSpend = document.querySelector(".total-spend");
 const dashboardButton = document.querySelector("#dashboard");
 const pastTripsButton = document.querySelector("#pastTrips");
 const upcomingTripsButton = document.querySelector("#upcomingTrips");
 const pendingTripsButton = document.querySelector("#pendingTrips");
-const userInput = document.querySelector(".user-input");
-const bookingOptions = document.querySelector(".booking-options");
-const pastTripsView = document.querySelector(".past-stays-view");
-const upcomingTripsView = document.querySelector(".upcoming-stays-view");
-const pendingTripsView = document.querySelector(".pending-stays-view");
-const pastDestinationList = document.querySelector(
-  ".past-destinations-display"
-);
-const upcomingDestinationList = document.querySelector(
-  ".upcoming-destinations-display"
-);
-const pendingDestinationList = document.querySelector(
-  ".pending-destinations-display"
-);
 const possibleDestinationList = document.querySelector(
   ".possible-destinations-display"
 );
@@ -79,7 +64,6 @@ const submitBookingRequest = () => {
     const newTrip = makeTripRequest();
     Promise.all([postData(newTrip)]).then((data) => {
       fetchData("trips");
-      // console.log(tripInstances.length, "after fetch");
       clearForm();
       confirmPost();
       displayPendingTrips();
@@ -116,51 +100,36 @@ const createRepositories = () => {
 };
 
 const displayWelcome = () => {
-  welcomeMessage.innerHTML = `<h1>Welcome ${currentUser.returnFirstName()}<h1>`;
+  domUpdates.displayWelcome(currentUser);
 };
 
 const displayTotalPrice = () => {
-  totalSpend.innerHTML = `<p>You Spent ${currentUser.calculateAnnualTotalSpend(
+  domUpdates.displayAnnualSpend(
+    currentUser,
     tripInstances,
     destinationInstances,
     firstOfYear,
     lastOfYear
-  )} on Trips this year</p>`;
+  );
 };
 
 const displayDashboard = () => {
-  userInput.classList.remove("hidden");
-  bookingOptions.classList.remove("hidden");
-  pastTripsView.classList.add("hidden");
-  upcomingTripsView.classList.add("hidden");
-  pendingTripsView.classList.add("hidden");
+  domUpdates.displayMainPage();
   displayPossibleDestinations();
 };
 
 const displayPastTrips = () => {
-  userInput.classList.add("hidden");
-  bookingOptions.classList.add("hidden");
-  upcomingTripsView.classList.add("hidden");
-  pendingTripsView.classList.add("hidden");
-  pastTripsView.classList.remove("hidden");
+  domUpdates.displayPastTab();
   displayPastDestinations();
 };
 
 const displayUpcomingTrips = () => {
-  userInput.classList.add("hidden");
-  bookingOptions.classList.add("hidden");
-  pastTripsView.classList.add("hidden");
-  pendingTripsView.classList.add("hidden");
-  upcomingTripsView.classList.remove("hidden");
+  domUpdates.displayUpcomingTab();
   displayUpcomingDestinations();
 };
 
 const displayPendingTrips = () => {
-  userInput.classList.add("hidden");
-  bookingOptions.classList.add("hidden");
-  pastTripsView.classList.add("hidden");
-  upcomingTripsView.classList.add("hidden");
-  pendingTripsView.classList.remove("hidden");
+  domUpdates.displayPendingTab();
   displayPendingDestinations();
 };
 
@@ -175,27 +144,7 @@ const setInitialDisplay = () => {
 
 const displayPossibleDestinations = () => {
   const possibleTrips = tripInstances.map((trip) => trip.destinationID);
-  //displaying the pics
-  const possibleDestinations = destinationInstances
-    .filter((place) => possibleTrips.includes(place.id))
-    .map((place) => {
-      const tripDisplay = `
-      <section class="trip-display" id="trip${place.id}">
-        <div class="trip-info">
-          <h2>${place.destination}</h2>
-          <p class="destination-hotel-cost">Estimate Lodging Cost $${place.estimatedLodgingCostPerDay}/<span>night</span></p>
-          <p class="destination-flight-cost">Estimated Flight Cost $${place.estimatedFlightCostPerPerson}/<span>person</span></p>
-          <button class="nav-buttons book-button" id="${place.id}">Book</button>
-        </div>
-        <div class="trip-image">
-          <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
-        </div>
-       </section>
-        `;
-      return tripDisplay;
-    })
-    .join("");
-  possibleDestinationList.innerHTML = possibleDestinations;
+  domUpdates.displayDestinations(destinationInstances, possibleTrips);
 };
 
 const displayPendingDestinations = () => {
@@ -206,35 +155,12 @@ const displayPendingDestinations = () => {
     currentDate,
     "after"
   );
-  const pendingDestinations = destinationInstances
-    .filter((place) => pendingTrips.includes(place.id))
-    .map((place) => {
-      const tripDisplay = `
-      <section class="trip-display" id="trip${place.id}">
-        <div class="trip-info">
-          <h2>${place.destination}</h2>
-          <p class="destination-hotel-cost">Lodging Will Be $${
-            place.estimatedLodgingCostPerDay
-          }/<span>night</span></p>
-          <p class="destination-flight-cost">Flights Will Be $${
-            place.estimatedFlightCostPerPerson
-          }/<span>total</span></p>
-          <p class="estimated-total">This trip will cost an estimate of $${currentUser.estimateTripTotal(
-            tripInstances,
-            destinationInstances
-          )}/<span>person</span></p>
-        </div>
-        <div class="trip-image">
-          <img class="destination-preview" src="${place.image}" alt="${
-        place.alt
-      }" />
-        </div>
-       </section>
-        `;
-      return tripDisplay;
-    })
-    .join("");
-  pendingDestinationList.innerHTML = pendingDestinations;
+  domUpdates.displayPendings(
+    destinationInstances,
+    pendingTrips,
+    tripInstances,
+    currentUser
+  );
 };
 
 const displayUpcomingDestinations = () => {
@@ -245,26 +171,7 @@ const displayUpcomingDestinations = () => {
     currentDate,
     "after"
   );
-  //displaying the pics
-  const upcomingDestinations = destinationInstances
-    .filter((place) => upcomingTrips.includes(place.id))
-    .map((place) => {
-      const tripDisplay = `
-      <section class="trip-display" id="trip${place.id}">
-        <div class="trip-info">
-          <h2>${place.destination}</h2>
-          <p class="destination-hotel-cost">Lodging Will Be $${place.estimatedLodgingCostPerDay}/<span>night</span></p>
-          <p class="destination-flight-cost">Flights Will Be $${place.estimatedFlightCostPerPerson}/<span>person</span></p>
-        </div>
-        <div class="trip-image">
-          <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
-        </div>
-       </section>
-        `;
-      return tripDisplay;
-    })
-    .join("");
-  upcomingDestinationList.innerHTML = upcomingDestinations;
+  domUpdates.displayUpcomings(destinationInstances, upcomingTrips);
 };
 
 const displayPastDestinations = () => {
@@ -275,26 +182,7 @@ const displayPastDestinations = () => {
     currentDate,
     "before"
   );
-  //display past trips
-  const pastDestinations = destinationInstances
-    .filter((place) => pastTrips.includes(place.id))
-    .map((place) => {
-      const tripDisplay = `
-      <section class="trip-display" id="trip${place.id}">
-        <div class="trip-info">
-          <h2>${place.destination}</h2>
-          <p class="destination-hotel-cost">Lodging Was $${place.estimatedLodgingCostPerDay}/<span>night</span></p>
-          <p class="destination-flight-cost">Flights Were $${place.estimatedFlightCostPerPerson}/<span>person</span></p>
-        </div>
-        <div class="trip-image">
-          <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
-        </div>
-       </section>
-      `;
-      return tripDisplay;
-    })
-    .join("");
-  pastDestinationList.innerHTML = pastDestinations;
+  domUpdates.displayPasts(destinationInstances, pastTrips);
 };
 
 const declareStartOfYear = () => {
