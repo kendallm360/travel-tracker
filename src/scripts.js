@@ -66,7 +66,7 @@ const fetchUsers = () => {
       destinationsData = data[2].destinations;
       createRepositories();
       setInitialDisplay();
-      // console.log(currentUser.trips);
+      console.log(tripsData.length);
     })
     .catch((error) =>
       console.log(error, "Error is coming back from the server")
@@ -74,9 +74,8 @@ const fetchUsers = () => {
 };
 //apiname, formdata
 const postAllData = (event) => {
-  console.log("steve");
   let data = {
-    id: 7001,
+    id: tripsData.length++,
     userID: currentUser.id,
     destinationID: parseInt(event.target.id),
     travelers: travelersInput.value,
@@ -96,8 +95,8 @@ const postAllData = (event) => {
 
 const bookDestination = (event) => {
   //if everything has a value do this
-  console.log(event);
   postAllData(event);
+  fetchUsers();
   //else should show the error message
 };
 
