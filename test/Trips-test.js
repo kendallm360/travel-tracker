@@ -8,12 +8,14 @@ describe("Trips", () => {
   let trip1;
   let trip2;
   let trip3;
+  let trip4;
 
   beforeEach(() => {
     tripData = testData.trips;
     trip1 = new Trips(tripData[0]);
     trip2 = new Trips(tripData[1]);
     trip3 = new Trips(tripData[2]);
+    trip4 = new Trips(tripData[8]);
   });
 
   it("Should be a function", () => {
@@ -54,5 +56,18 @@ describe("Trips", () => {
 
   it("Should have suggested activities for the trip", () => {
     expect(trip1.suggestedActivities).to.be.a("array");
+  });
+
+  it("Should return an error if any property's information has been provided", () => {
+    expect(trip4.id).to.equal("No ID has been provided");
+    expect(trip4.userID).to.equal("No userID has been provided");
+    expect(trip4.destinationID).to.equal("No destinationID has been provided");
+    expect(trip4.travelers).to.equal("No travelers have been provided");
+    expect(trip4.date).to.equal("No date has been provided");
+    expect(trip4.duration).to.equal("No duration has been provided");
+    expect(trip4.status).to.equal("No status has been provided");
+    expect(trip4.suggestedActivities).to.equal(
+      "No suggested activities have been provided"
+    );
   });
 });

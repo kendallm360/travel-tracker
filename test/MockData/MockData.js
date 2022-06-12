@@ -92,6 +92,26 @@ const testData = {
       status: "approved",
       suggestedActivities: [],
     },
+    {
+      id: 8,
+      userID: 3,
+      destinationID: 25,
+      travelers: 4,
+      date: "2022/11/08",
+      duration: 8,
+      status: "pending",
+      suggestedActivities: [],
+    },
+    {
+      id: null,
+      userID: undefined,
+      destinationID: undefined,
+      travelers: undefined,
+      date: undefined,
+      duration: undefined,
+      status: undefined,
+      suggestedActivities: undefined,
+    },
   ],
   destinations: [
     {

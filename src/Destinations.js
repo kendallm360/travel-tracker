@@ -1,12 +1,15 @@
 export default class Destinations {
   constructor(destinationData) {
-    this.id = destinationData.id;
-    this.destination = destinationData.destination;
+    this.id = destinationData.id || "No ID has been provided";
+    this.destination =
+      destinationData.destination || "No destination has been provided";
     this.estimatedLodgingCostPerDay =
-      destinationData.estimatedLodgingCostPerDay;
+      destinationData.estimatedLodgingCostPerDay ||
+      "No lodging costs have been provided";
     this.estimatedFlightCostPerPerson =
-      destinationData.estimatedFlightCostPerPerson;
-    this.image = destinationData.image;
-    this.alt = destinationData.alt;
+      destinationData.estimatedFlightCostPerPerson ||
+      "No flight costs have been provided";
+    this.image = destinationData.image || "No image has been provided";
+    this.alt = destinationData.alt || "No alt tag has been provided";
   }
 }

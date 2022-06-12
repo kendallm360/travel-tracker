@@ -1,7 +1,8 @@
+/* eslint-disable max-len */
 //IMPORTS
 // An example of how you tell webpack to use a CSS (SCSS) file
 import "./css/styles.css";
-import { fetchData } from "./apiCalls";
+import { fetchData, postData } from "./apiCalls";
 import Traveler from "./Traveler";
 import Trips from "./Trips";
 import Destinations from "./Destinations";
@@ -10,20 +11,19 @@ import { findTrips } from "./util";
 //IMAGES
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import "./images/turing-logo.png";
+// import ".images/tropical-banner.jpg";
 
 //GLOBAL VARIABLES
 let travelerData;
 let tripsData;
 let destinationsData;
 let currentUser;
+let travelerInstances;
 let tripInstances;
 let destinationInstances;
 let currentDate;
 let firstOfYear;
 let lastOfYear;
-let pastTrips;
-let upcomingTrips;
-let pendingTrips;
 
 //QUERY SELECTORS
 const welcomeMessage = document.querySelector(".title");
@@ -49,8 +49,11 @@ const pendingDestinationList = document.querySelector(
 const possibleDestinationList = document.querySelector(
   ".possible-destinations-display"
 );
+const dateInput = document.querySelector(".date-filter");
+const durationInput = document.querySelector(".duration-filter");
+const travelersInput = document.querySelector(".travelers-filter");
 
-//FUNCTIONS
+//FETCH CALLS
 const fetchUsers = () => {
   Promise.all([
     fetchData("travelers"),
@@ -58,36 +61,58 @@ const fetchUsers = () => {
     fetchData("destinations"),
   ])
     .then((data) => {
-      //below can be moved into an external function to for DRYness
-      //   setLocalData(data);
       travelerData = data[0].travelers;
       tripsData = data[1].trips;
       destinationsData = data[2].destinations;
       createRepositories();
-      displayWelcome();
-      currentDate = new Date().toISOString().split("T")[0].split("-").join("/");
-      declareStartOfYear();
-      declareLastOfYear();
-      displayTotalPrice();
-      displayPossibleDestinations();
+      setInitialDisplay();
+      console.log(tripsData.length);
     })
     .catch((error) =>
       console.log(error, "Error is coming back from the server")
     );
 };
+//apiname, formdata
+const postAllData = (event) => {
+  let data = {
+    id: tripsData.length++,
+    userID: currentUser.id,
+    destinationID: parseInt(event.target.id),
+    travelers: travelersInput.value,
+    date: dateInput.value.split("-").join("/"),
+    duration: durationInput.value,
+    status: "pending",
+    suggestedActivities: [],
+  };
+  postData(data)
+    .then((response) => console.log(response))
+    .catch((e) => {
+      console.error(e.message);
+    });
+};
+
+//FUNCTIONS
+
+const bookDestination = (event) => {
+  //if everything has a value do this
+  postAllData(event);
+  fetchUsers();
+  //else should show the error message
+};
 
 const createRepositories = () => {
-  let travelerInstances = travelerData.map((traveler) => {
+  currentDate = new Date().toISOString().split("T")[0].split("-").join("/");
+  travelerInstances = travelerData.map((traveler) => {
     return new Traveler(traveler);
   });
-  currentUser = travelerInstances[2];
+  currentUser = travelerInstances[46];
   tripInstances = tripsData.map((trip) => {
     return new Trips(trip);
   });
   destinationInstances = destinationsData.map((destination) => {
     return new Destinations(destination);
   });
-  currentDate = new Date();
+  console.log(currentUser.trips);
 };
 
 const displayWelcome = () => {
@@ -95,12 +120,12 @@ const displayWelcome = () => {
 };
 
 const displayTotalPrice = () => {
-  totalSpend.innerHTML = `<h3>You Spent ${currentUser.calculateTotalSpent(
+  totalSpend.innerHTML = `<p>You Spent ${currentUser.calculateAnnualTotalSpend(
     tripInstances,
     destinationInstances,
     firstOfYear,
     lastOfYear
-  )} on Trips</h3>`;
+  )} on Trips this year</p>`;
 };
 
 const displayDashboard = () => {
@@ -140,6 +165,14 @@ const displayPendingTrips = () => {
 };
 
 //HELPER FUNCTIONS
+const setInitialDisplay = () => {
+  displayWelcome();
+  declareStartOfYear();
+  declareLastOfYear();
+  displayTotalPrice();
+  displayPossibleDestinations();
+};
+
 const displayPossibleDestinations = () => {
   const possibleTrips = tripInstances.map((trip) => trip.destinationID);
   //displaying the pics
@@ -147,13 +180,17 @@ const displayPossibleDestinations = () => {
     .filter((place) => possibleTrips.includes(place.id))
     .map((place) => {
       const tripDisplay = `
-      <div class="trip-display" id="${place.id}" role="button">
-        <h2>${place.destination}</h2>
-         <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
-         <div class="destination-info">
-           <p class="destination-preview-cost">This experience only costs $${place.estimatedLodgingCostPerDay} per night</p>
-         </div>
-       </div>
+      <section class="trip-display" id="${place.id}">
+        <div class="trip-info">
+          <h2>${place.destination}</h2>
+          <p class="destination-hotel-cost">Estimate Lodging Cost $${place.estimatedLodgingCostPerDay}/<span>night</span></p>
+          <p class="destination-flight-cost">Estimated Flight Cost $${place.estimatedFlightCostPerPerson}/<span>person</span></p>
+          <button class="nav-buttons book-button" id="${place.id}">Book</button>
+        </div>
+        <div class="trip-image">
+          <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
+        </div>
+       </section>
         `;
       return tripDisplay;
     })
@@ -173,13 +210,16 @@ const displayPendingDestinations = () => {
     .filter((place) => pendingTrips.includes(place.id))
     .map((place) => {
       const tripDisplay = `
-      <div class="trip-display" id="${place.id}" role="button">
-        <h2>${place.destination}</h2>
-         <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
-         <div class="destination-info">
-           <p class="destination-preview-cost">This experience will be $${place.estimatedLodgingCostPerDay} per night</p>
-         </div>
-       </div>
+      <section class="trip-display" id="${place.id}">
+        <div class="trip-info">
+          <h2>${place.destination}</h2>
+          <p class="destination-hotel-cost">Lodging Will Be $${place.estimatedLodgingCostPerDay}/<span>night</span></p>
+          <p class="destination-flight-cost">Flights Will Be $${place.estimatedFlightCostPerPerson}/<span>person</span></p>
+        </div>
+        <div class="trip-image">
+          <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
+        </div>
+       </section>
         `;
       return tripDisplay;
     })
@@ -200,13 +240,16 @@ const displayUpcomingDestinations = () => {
     .filter((place) => upcomingTrips.includes(place.id))
     .map((place) => {
       const tripDisplay = `
-      <div class="trip-display" id="${place.id}" role="button">
-        <h2>${place.destination}</h2>
-         <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
-         <div class="destination-info">
-           <p class="destination-preview-cost">This experience will be $${place.estimatedLodgingCostPerDay} per night</p>
-         </div>
-       </div>
+      <section class="trip-display" id="${place.id}">
+        <div class="trip-info">
+          <h2>${place.destination}</h2>
+          <p class="destination-hotel-cost">Lodging Will Be $${place.estimatedLodgingCostPerDay}/<span>night</span></p>
+          <p class="destination-flight-cost">Flights Will Be $${place.estimatedFlightCostPerPerson}/<span>person</span></p>
+        </div>
+        <div class="trip-image">
+          <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
+        </div>
+       </section>
         `;
       return tripDisplay;
     })
@@ -227,13 +270,16 @@ const displayPastDestinations = () => {
     .filter((place) => pastTrips.includes(place.id))
     .map((place) => {
       const tripDisplay = `
-    <div class="trip-display" id="${place.id}" role="button">
-      <h2>${place.destination}</h2>
-       <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
-       <div class="destination-info">
-         <p class="destination-preview-cost">This experience was $${place.estimatedLodgingCostPerDay} per night</p>
-       </div>
-     </div>
+      <section class="trip-display" id="${place.id}">
+        <div class="trip-info">
+          <h2>${place.destination}</h2>
+          <p class="destination-hotel-cost">Lodging Was $${place.estimatedLodgingCostPerDay}/<span>night</span></p>
+          <p class="destination-flight-cost">Flights Were $${place.estimatedFlightCostPerPerson}/<span>person</span></p>
+        </div>
+        <div class="trip-image">
+          <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
+        </div>
+       </section>
       `;
       return tripDisplay;
     })
@@ -258,24 +304,28 @@ const declareLastOfYear = () => {
   currentLast.push("12");
   currentLast.push("31");
   lastOfYear = currentLast.join("/");
-  console.log(lastOfYear);
   return lastOfYear;
 };
 
-const sortTripsLeastRecent = () => {
-  const tripsSorted = tripInstances.sort(
-    (a, b) => new Date(a.date) - new Date(b.date)
-  );
-  return tripsSorted;
+const possibleDestinationHandler = (event) => {
+  if (event.target.classList.contains("book-button")) {
+    bookDestination(event);
+  }
 };
 
-const sortTripsMostRecent = () => {
-  const tripsSorted = tripInstances.sort(
-    (a, b) => new Date(b.date) - new Date(a.date)
-  );
-  return tripsSorted;
-};
+// const sortTripsLeastRecent = () => {
+//   const tripsSorted = tripInstances.sort(
+//     (a, b) => new Date(a.date) - new Date(b.date)
+//   );
+//   return tripsSorted;
+// };
 
+// const sortTripsMostRecent = () => {
+//   const tripsSorted = tripInstances.sort(
+//     (a, b) => new Date(b.date) - new Date(a.date)
+//   );
+//   return tripsSorted;
+// };
 //EVENT LISTENERS
 window.addEventListener("load", () => {
   fetchUsers();
@@ -292,3 +342,4 @@ upcomingTripsButton.addEventListener("click", () => {
 pendingTripsButton.addEventListener("click", () => {
   displayPendingTrips();
 });
+possibleDestinationList.addEventListener("click", possibleDestinationHandler);
