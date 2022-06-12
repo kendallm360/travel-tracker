@@ -68,8 +68,9 @@ const fetchUsers = () => {
       setInitialDisplay();
       console.log(tripsData.length);
     })
-    .catch((error) =>
-      console.log(error, "Error is coming back from the server")
+    .catch(
+      (error) => showServerError(error)
+      // console.log(error, "Error is coming back from the server")
     );
 };
 //apiname, formdata
@@ -94,10 +95,16 @@ const postAllData = (event) => {
 //FUNCTIONS
 
 const bookDestination = (event) => {
-  //if everything has a value do this
-  postAllData(event);
-  fetchUsers();
-  //else should show the error message
+  if (
+    travelersInput.value >= 1 &&
+    dateInput.value >= currentDate &&
+    durationInput.value >= 1
+  ) {
+    postAllData(event);
+    fetchUsers();
+  } else {
+    showErrorMessage();
+  }
 };
 
 const createRepositories = () => {
@@ -313,6 +320,18 @@ const possibleDestinationHandler = (event) => {
   }
 };
 
+const showErrorMessage = () => {
+  alert(
+    "Make sure you have filled out the form completely and choose a destination"
+  );
+};
+
+const showServerError = (error) => {
+  console.log(error);
+  alert(
+    "😬OOOPS this problem is on us but you can help by ensuring you are running the local server😬"
+  );
+};
 // const sortTripsLeastRecent = () => {
 //   const tripsSorted = tripInstances.sort(
 //     (a, b) => new Date(a.date) - new Date(b.date)
