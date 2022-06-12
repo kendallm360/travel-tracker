@@ -64,14 +64,30 @@ const fetchUsers = () => {
       travelerData = data[0].travelers;
       tripsData = data[1].trips;
       destinationsData = data[2].destinations;
+
       createRepositories();
       setInitialDisplay();
     })
     .catch((error) => showServerError(error));
 };
-//apiname, formdata
-const postAllData = (event) => {
-  let data = {
+
+const submitBookingRequest = () => {
+  console.log(tripInstances.length, "before fetch");
+  let formCheck = handleUserInputErrors();
+  if (formCheck) {
+    const newTrip = makeTripRequest();
+    Promise.all([postData(newTrip)]).then((data) => {
+      fetchData("trips");
+      // console.log(tripInstances.length, "after fetch");
+      clearForm();
+      confirmPost();
+      displayPendingTrips();
+    });
+  }
+};
+
+const makeTripRequest = () => {
+  return {
     id: Date.now(),
     userID: currentUser.id,
     destinationID: parseInt(event.target.id),
@@ -81,29 +97,9 @@ const postAllData = (event) => {
     status: "pending",
     suggestedActivities: [],
   };
-  postData(data)
-    .then((response) => console.log(response))
-    .catch((e) => {
-      console.error(e.message);
-    });
 };
 
 //FUNCTIONS
-
-const bookDestination = (event) => {
-  console.log(tripInstances.length, "length before");
-  let formCheck = handleUserInputErrors();
-  if (formCheck) {
-    postAllData(event);
-    fetchUsers();
-    console.log(tripInstances.length, "length after");
-    clearForm();
-    confirmPost();
-    displayPendingTrips();
-    console.log(tripInstances.length, "length last");
-  }
-};
-
 const createRepositories = () => {
   currentDate = new Date().toISOString().split("T")[0].split("-").join("/");
   travelerInstances = travelerData.map((traveler) => {
@@ -320,12 +316,6 @@ const declareLastOfYear = () => {
   return lastOfYear;
 };
 
-const possibleDestinationHandler = (event) => {
-  if (event.target.classList.contains("book-button")) {
-    bookDestination(event);
-  }
-};
-
 const handleUserInputErrors = () => {
   if (dateInput.value.split("-").join("/") <= currentDate || !dateInput.value) {
     alert("Make sure you select a future date and book a destination");
@@ -395,4 +385,7 @@ upcomingTripsButton.addEventListener("click", () => {
 pendingTripsButton.addEventListener("click", () => {
   displayPendingTrips();
 });
-possibleDestinationList.addEventListener("click", possibleDestinationHandler);
+possibleDestinationList.addEventListener("click", (event) => {
+  event.preventDefault();
+  submitBookingRequest();
+});
