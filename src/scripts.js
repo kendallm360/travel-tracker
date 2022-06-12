@@ -105,11 +105,12 @@ const bookDestination = (event) => {
     durationInput.value >= 1
   ) {
     postAllData(event);
-    clearForm();
     fetchUsers();
-    findTrips(tripInstances, currentUser.id, "pending", currentDate, "after");
+    clearForm();
+    // findTrips(tripInstances, currentUser.id, "pending", currentDate, "after");
     confirmPost();
     // displayPendingDestinations();
+    displayPendingTrips();
   } else {
     showErrorMessage();
   }
@@ -120,7 +121,7 @@ const createRepositories = () => {
   travelerInstances = travelerData.map((traveler) => {
     return new Traveler(traveler);
   });
-  currentUser = travelerInstances[46];
+  currentUser = travelerInstances[45];
   tripInstances = tripsData.map((trip) => {
     return new Trips(trip);
   });
@@ -232,7 +233,7 @@ const displayPendingDestinations = () => {
           }/<span>night</span></p>
           <p class="destination-flight-cost">Flights Will Be $${
             place.estimatedFlightCostPerPerson
-          }/<span>person</span></p>
+          }/<span>total</span></p>
           <p class="estimated-total">This trip will cost an estimate of $${currentUser.estimateTripTotal(
             tripInstances,
             destinationInstances

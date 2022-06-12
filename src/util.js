@@ -31,11 +31,16 @@ const calculateEachTripTotal = (
 ) => {
   let eachTripTotal = filteredTrips.reduce((acc, trip) => {
     if (filteredDestinations.includes(trip.destinationID)) {
+      //the  next two variables can be moved to another function
       let destinationCost = destinationData
         .filter((destination) => trip.destinationID === destination.id)
         .map((destination) => destination.estimatedLodgingCostPerDay)
         .pop();
-      acc.push(trip.duration * destinationCost);
+      let flightCost = destinationData
+        .filter((destination) => trip.destinationID === destination.id)
+        .map((destination) => destination.estimatedFlightCostPerPerson)
+        .pop();
+      acc.push(trip.duration * destinationCost + flightCost);
     }
     return acc;
   }, []);
