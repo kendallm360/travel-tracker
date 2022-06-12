@@ -76,7 +76,7 @@ const fetchUsers = () => {
 //apiname, formdata
 const postAllData = (event) => {
   let data = {
-    id: tripsData.length++,
+    id: Date.now(),
     userID: currentUser.id,
     destinationID: parseInt(event.target.id),
     travelers: travelersInput.value,
@@ -95,13 +95,21 @@ const postAllData = (event) => {
 //FUNCTIONS
 
 const bookDestination = (event) => {
+  console.log("travelers", travelersInput.value);
+  console.log("date", dateInput.value);
+  console.log("currentdate", currentDate);
+  console.log("duration", durationInput.value);
   if (
     travelersInput.value >= 1 &&
-    dateInput.value >= currentDate &&
+    dateInput.value.split("-").join("/") >= currentDate &&
     durationInput.value >= 1
   ) {
     postAllData(event);
+    clearForm();
     fetchUsers();
+    findTrips(tripInstances, currentUser.id, "pending", currentDate, "after");
+    confirmPost();
+    // displayPendingDestinations();
   } else {
     showErrorMessage();
   }
@@ -119,7 +127,6 @@ const createRepositories = () => {
   destinationInstances = destinationsData.map((destination) => {
     return new Destinations(destination);
   });
-  console.log(currentUser.trips);
 };
 
 const displayWelcome = () => {
@@ -220,11 +227,21 @@ const displayPendingDestinations = () => {
       <section class="trip-display" id="${place.id}">
         <div class="trip-info">
           <h2>${place.destination}</h2>
-          <p class="destination-hotel-cost">Lodging Will Be $${place.estimatedLodgingCostPerDay}/<span>night</span></p>
-          <p class="destination-flight-cost">Flights Will Be $${place.estimatedFlightCostPerPerson}/<span>person</span></p>
+          <p class="destination-hotel-cost">Lodging Will Be $${
+            place.estimatedLodgingCostPerDay
+          }/<span>night</span></p>
+          <p class="destination-flight-cost">Flights Will Be $${
+            place.estimatedFlightCostPerPerson
+          }/<span>person</span></p>
+          <p class="estimated-total">This trip will cost an estimate of $${currentUser.estimateTripTotal(
+            tripInstances,
+            destinationInstances
+          )}/<span>person</span></p>
         </div>
         <div class="trip-image">
-          <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
+          <img class="destination-preview" src="${place.image}" alt="${
+        place.alt
+      }" />
         </div>
        </section>
         `;
@@ -332,6 +349,19 @@ const showServerError = (error) => {
     "😬OOOPS this problem is on us but you can help by ensuring you are running the local server😬"
   );
 };
+
+const clearForm = () => {
+  travelersInput.value = 0;
+  dateInput.value = "mm/dd/yyyy";
+  durationInput.value = 0;
+};
+
+const confirmPost = () => {
+  alert(
+    "Your trip has been added to pending. An agent will reach out to you shortly"
+  );
+};
+
 // const sortTripsLeastRecent = () => {
 //   const tripsSorted = tripInstances.sort(
 //     (a, b) => new Date(a.date) - new Date(b.date)
