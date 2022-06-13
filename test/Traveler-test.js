@@ -105,7 +105,7 @@ describe("Traveler", () => {
         startDate,
         endDate
       )
-    ).to.equal(726);
+    ).to.equal(2024);
     expect(
       traveler2.calculateAnnualTotalSpend(
         tripData,
@@ -113,7 +113,7 @@ describe("Traveler", () => {
         startDate,
         endDate
       )
-    ).to.equal(3124);
+    ).to.equal(5027);
   });
 
   it("Should have a method that calculates a total estimate of a trips cost", () => {
