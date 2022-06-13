@@ -179,6 +179,7 @@ const displayPastDestinations = () => {
     currentDate,
     "before"
   );
+  console.log(pastTrips);
   domUpdates.displayPasts(destinationInstances, pastTrips);
 };
 

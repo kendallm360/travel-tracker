@@ -114,6 +114,9 @@ let domUpdates = {
           )}/<span>person</span></p>
         </div>
         <div class="trip-image">
+            <div class="trip-status-label">
+                <p>Pending Trip</p>
+            </div>
           <img class="destination-preview" src="${place.image}" alt="${
           place.alt
         }" />
@@ -140,6 +143,9 @@ let domUpdates = {
           <p class="destination-flight-cost">Flights Will Be $${place.estimatedFlightCostPerPerson}/<span>person</span></p>
         </div>
         <div class="trip-image">
+            <div class="trip-status-label">
+                <p>Upcoming Trip</p>
+            </div>
           <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
         </div>
        </section>
@@ -163,9 +169,11 @@ let domUpdates = {
           <p class="destination-hotel-cost">Lodging Was $${place.estimatedLodgingCostPerDay}/<span>night</span></p>
           <p class="destination-flight-cost">Flights Were $${place.estimatedFlightCostPerPerson}/<span>person</span></p>
         </div>
-        <p class="status-label>Past</p>
         <div class="trip-image">
-          <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
+            <div class="trip-status-label">
+                <p>Past Trip</p>
+            </div>
+        <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
         </div>
        </section>
       `;
