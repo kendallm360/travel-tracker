@@ -8,7 +8,7 @@ body {
 }
 
 h1 {
-  font-size: 50px;
+  font-size: 3.5em;
 }
 
 h2 {
@@ -37,6 +37,10 @@ span {
   border-radius: 25px;
   color: orange;
   cursor: pointer;
+}
+
+.nav-buttons:hover {
+  transform: scale(1.15);
 }
 
 .nav-bar {
@@ -108,9 +112,19 @@ span {
   text-align: center;
 }
 
+.status-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .trip-image {
   width: 80%;
 }
+
 .trip-info {
   width: 20%;
   text-align: center;

@@ -50,7 +50,6 @@ const fetchUsers = () => {
       travelerData = data[0].travelers;
       tripsData = data[1].trips;
       destinationsData = data[2].destinations;
-
       createRepositories();
       setInitialDisplay();
     })
@@ -58,15 +57,13 @@ const fetchUsers = () => {
 };
 
 const submitBookingRequest = () => {
-  console.log(tripInstances.length, "before fetch");
   let formCheck = handleUserInputErrors();
   if (formCheck) {
     const newTrip = makeTripRequest();
     Promise.all([postData(newTrip)]).then((data) => {
-      fetchData("trips");
+      fetchUsers();
       clearForm();
       confirmPost();
-      displayPendingTrips();
     });
   }
 };
@@ -90,7 +87,7 @@ const createRepositories = () => {
   travelerInstances = travelerData.map((traveler) => {
     return new Traveler(traveler);
   });
-  currentUser = travelerInstances[42];
+  currentUser = travelerInstances[46];
   tripInstances = tripsData.map((trip) => {
     return new Trips(trip);
   });
