@@ -24,6 +24,7 @@ let firstOfYear;
 let lastOfYear;
 
 //QUERY SELECTORS
+const loginButton = document.querySelector(".login");
 const dashboardButton = document.querySelector("#dashboard");
 const pastTripsButton = document.querySelector("#pastTrips");
 const upcomingTripsButton = document.querySelector("#upcomingTrips");
@@ -31,6 +32,10 @@ const pendingTripsButton = document.querySelector("#pendingTrips");
 const possibleDestinationList = document.querySelector(
   ".possible-destinations-display"
 );
+const loginError = document.querySelector(".login-error");
+// const loginInputs = document.querySelector(".login-inputs");
+const usernameInput = document.querySelector(".username-input");
+const passwordInput = document.querySelector(".password-input");
 const dateInput = document.querySelector(".date-filter");
 const durationInput = document.querySelector(".duration-filter");
 const travelersInput = document.querySelector(".travelers-filter");
@@ -46,8 +51,10 @@ const fetchUsers = () => {
       travelerData = data[0].travelers;
       tripsData = data[1].trips;
       destinationsData = data[2].destinations;
-      createRepositories();
-      setInitialDisplay();
+      // createRepositories(id);
+      // console.log(verifyUsername());
+      // setInitialDisplay();
+      // console.log(currentUser);
     })
     .catch((error) => showServerError(error));
 };
@@ -78,18 +85,29 @@ const makeTripRequest = () => {
 };
 
 //FUNCTIONS
-const createRepositories = () => {
+const verifyUser = () => {
+  const userID = verifyUsername();
+  const passwordCheck = verifyPassword();
+  if (userID && passwordCheck) {
+    fetchUsers();
+    createRepositories(userID);
+    setInitialDisplay();
+  }
+};
+
+const createRepositories = (id) => {
   currentDate = new Date().toISOString().split("T")[0].split("-").join("/");
   travelerInstances = travelerData.map((traveler) => {
     return new Traveler(traveler);
   });
-  currentUser = travelerInstances[7];
+  currentUser = travelerInstances[id - 1];
   tripInstances = tripsData.map((trip) => {
     return new Trips(trip);
   });
   destinationInstances = destinationsData.map((destination) => {
     return new Destinations(destination);
   });
+  console.log(currentUser);
 };
 
 const displayWelcome = () => {
@@ -127,6 +145,27 @@ const displayPendingTrips = () => {
 };
 
 //HELPER FUNCTIONS
+const verifyUsername = () => {
+  let username = usernameInput.value;
+  const letters = username.split("").slice(0, 8).join("");
+  const numbers = parseInt(username.split("").slice(8).join(""));
+  if (username.length < 9 || numbers <= 0 || numbers > 50) {
+    loginError.innerText = `You have entered an invalid username or password`;
+  } else {
+    return numbers;
+  }
+};
+
+const verifyPassword = () => {
+  let password = passwordInput.value;
+  if (password === "traveler") {
+    return true;
+  } else {
+    loginError.innerText = `You have entered an invalid username or password`;
+    return false;
+  }
+};
+
 const setInitialDisplay = () => {
   displayWelcome();
   declareStartOfYear();
@@ -266,4 +305,7 @@ pendingTripsButton.addEventListener("click", () => {
 possibleDestinationList.addEventListener("click", (event) => {
   event.preventDefault();
   submitBookingRequest();
+});
+loginButton.addEventListener("click", () => {
+  verifyUser();
 });

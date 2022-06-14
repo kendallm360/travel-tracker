@@ -48,6 +48,9 @@ span {
   width: 70%;
 }
 
+.login {
+  cursor: pointer;
+}
 /* Header */
 .title-bar {
   background-color: black;
