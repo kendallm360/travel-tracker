@@ -114,9 +114,9 @@ let domUpdates = {
           )}/<span>total</span></p>
         </div>
         <div class="trip-image">
-            <div class="trip-status-label">
+            <button class="trip-status-label">
                 <p>Pending Trip</p>
-            </div>
+            </button>
           <img class="destination-preview" src="${place.image}" alt="${
           place.alt
         }" />
@@ -143,9 +143,9 @@ let domUpdates = {
             <p class="destination-flight-cost">Flights Will Be $${place.estimatedFlightCostPerPerson}/<span>person</span></p>
           </div>
           <div class="trip-image">
-              <div class="trip-status-label">
+              <button class="trip-status-label">
                   <p>Upcoming Trip</p>
-              </div>
+              </button>
             <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
           </div>
          </section>
@@ -153,7 +153,6 @@ let domUpdates = {
         return tripDisplay;
       })
       .join("");
-    console.log(upcomingDestinations);
     upcomingDestinationList.innerHTML = upcomingDestinations;
   },
   //   displayPasts(destinationInstances, pastTrips, rawTrips) {
@@ -172,9 +171,9 @@ let domUpdates = {
           <p class="destination-flight-cost">Flights Were $${place.estimatedFlightCostPerPerson}/<span>person</span></p>
         </div>
         <div class="trip-image">
-            <div class="trip-status-label">
+            <button class="trip-status-label">
                 <p>Past Trip</p>
-            </div>
+            </button>
         <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
         </div>
        </section>
