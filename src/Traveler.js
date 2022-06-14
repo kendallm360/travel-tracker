@@ -55,7 +55,8 @@ export default class Traveler {
       this.id,
       tripData,
       yearStart,
-      yearEnd
+      yearEnd, 
+      "approved"
     );
     const eachTripTotal = calculateEachTripTotal(
       filteredTrips,

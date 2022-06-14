@@ -1,6 +1,7 @@
 /* global */
 
 body {
+  /* background-image: url(../images/bg3.jpg); */
   background-color: black;
   color: orange;
   display: flex;
@@ -24,7 +25,8 @@ span {
 
 /* Header */
 .title-bar {
-  background-color: darkgreen;
+  background-color: black;
+  /* background-image: url(../images/tropical-banner.jpg); */
   height: 15vh;
   color: orange;
   width: 100vw;
@@ -72,6 +74,7 @@ span {
 
 .user-input {
   background-color: #242424;
+  /* background-image: url(../images/bg3.jpg); */
   border-bottom-right-radius: 40px;
   border-top-right-radius: 40px;
   text-align: center;
@@ -97,15 +100,17 @@ span {
 /* Trips Displays */
 .trip-display {
   border: solid 1px orange;
+  height: 100%;
   width: 100%;
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
 }
 
 .destination-preview {
   border-radius: 25px;
-  height: 100%;
-  width: 100%;
+  height: 400px;
+  width: 700px;
 }
 
 .destination-preview-cost {
@@ -114,7 +119,9 @@ span {
 
 .trip-image {
   position: relative;
-  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .trip-status-label {
