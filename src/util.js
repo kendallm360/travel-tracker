@@ -6,19 +6,27 @@ const findTrips = (tripData, currentId, status, currentDate, dateAttribute) => {
       .filter((trip) => trip.date < currentDate)
       .map((trip) => trip.destinationID);
     return filteredTrips;
-  } else {
+  }
+  if (dateAttribute === "after") {
     const filteredTrips = tripData
       .filter((trip) => trip.userID === currentId)
-      .filter((trip) => trip.status === status)
+      .filter((trip) => trip.status === status || trip.status === "pending")
       .filter((trip) => trip.date > currentDate)
       .map((trip) => trip.destinationID);
     return filteredTrips;
   }
 };
 
-const findUserTripsCurrentYear = (currentId, tripData, yearStart, yearEnd) => {
+const findUserTripsCurrentYear = (
+  currentId,
+  tripData,
+  yearStart,
+  yearEnd,
+  status
+) => {
   const filteredTrips = tripData
     .filter((trip) => trip.userID === currentId)
+    .filter((trip) => trip.status === status)
     .filter((trip) => trip.date >= yearStart)
     .filter((trip) => trip.date <= yearEnd);
   return filteredTrips;
@@ -56,9 +64,18 @@ const calculateAllTripsTotal = (filteredTripTotals) => {
   return totalSpent + agentFee;
 };
 
+// const findRawTrips = (tripData, currentId, status, currentDate) => {
+//   const rawTrips = tripData
+//     .filter((trip) => trip.userID === currentId)
+//     .filter((trip) => trip.status === status)
+//     .filter((trip) => trip.date < currentDate);
+//   return rawTrips;
+// };
+
 export {
   findTrips,
   findUserTripsCurrentYear,
   calculateEachTripTotal,
   calculateAllTripsTotal,
+  // findRawTrips,
 };

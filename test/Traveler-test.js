@@ -67,10 +67,6 @@ describe("Traveler", () => {
     expect(traveler4.returnFirstName()).to.equal("No name has been provided");
   });
 
-  //   it("Should have a method that finds user info by id", () => {
-  //     expect(traveler1.findByID(1)).to.equal(1);
-  //   });
-
   it("Should have a method that adds all trips to user's trips property", () => {
     expect(traveler1.findMyTrips(tripData)).to.deep.equal([1, 3, 4, 5]);
     expect(traveler1.trips).to.deep.equal([1, 3, 4, 5]);

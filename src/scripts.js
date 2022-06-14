@@ -1,19 +1,15 @@
 /* eslint-disable indent */
 /* eslint-disable max-len */
 //IMPORTS
-// An example of how you tell webpack to use a CSS (SCSS) file
 import "./css/styles.css";
 import { fetchData, postData } from "./apiCalls";
 import Traveler from "./Traveler";
 import Trips from "./Trips";
 import Destinations from "./Destinations";
 import domUpdates from "./domUpdates";
-
-import { findTrips } from "./util";
+import { findTrips, findRawTrips } from "./util";
 //IMAGES
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import "./images/turing-logo.png";
-// import ".images/tropical-banner.jpg";
 
 //GLOBAL VARIABLES
 let travelerData;
@@ -50,7 +46,6 @@ const fetchUsers = () => {
       travelerData = data[0].travelers;
       tripsData = data[1].trips;
       destinationsData = data[2].destinations;
-
       createRepositories();
       setInitialDisplay();
     })
@@ -58,15 +53,13 @@ const fetchUsers = () => {
 };
 
 const submitBookingRequest = () => {
-  console.log(tripInstances.length, "before fetch");
   let formCheck = handleUserInputErrors();
   if (formCheck) {
     const newTrip = makeTripRequest();
     Promise.all([postData(newTrip)]).then((data) => {
-      fetchData("trips");
+      fetchUsers();
       clearForm();
       confirmPost();
-      displayPendingTrips();
     });
   }
 };
@@ -90,7 +83,7 @@ const createRepositories = () => {
   travelerInstances = travelerData.map((traveler) => {
     return new Traveler(traveler);
   });
-  currentUser = travelerInstances[42];
+  currentUser = travelerInstances[7];
   tripInstances = tripsData.map((trip) => {
     return new Trips(trip);
   });
@@ -183,6 +176,15 @@ const displayPastDestinations = () => {
     "before"
   );
   domUpdates.displayPasts(destinationInstances, pastTrips);
+
+  // let rawTrips = findRawTrips(
+  //   tripInstances,
+  //   currentUser.id,
+  //   "approved",
+  //   currentDate
+  // );
+  // console.log(rawTrips);
+  // domUpdates.displayPasts(destinationInstances, pastTrips, rawTrips);
 };
 
 const declareStartOfYear = () => {
@@ -245,19 +247,6 @@ const confirmPost = () => {
   );
 };
 
-// const sortTripsLeastRecent = () => {
-//   const tripsSorted = tripInstances.sort(
-//     (a, b) => new Date(a.date) - new Date(b.date)
-//   );
-//   return tripsSorted;
-// };
-
-// const sortTripsMostRecent = () => {
-//   const tripsSorted = tripInstances.sort(
-//     (a, b) => new Date(b.date) - new Date(a.date)
-//   );
-//   return tripsSorted;
-// };
 //EVENT LISTENERS
 window.addEventListener("load", () => {
   fetchUsers();

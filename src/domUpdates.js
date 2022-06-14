@@ -107,13 +107,16 @@ let domUpdates = {
           }/<span>night</span></p>
           <p class="destination-flight-cost">Flights Will Be $${
             place.estimatedFlightCostPerPerson
-          }/<span>total</span></p>
+          }/<span>person</span></p>
           <p class="estimated-total">This trip will cost an estimate of $${user.estimateTripTotal(
             tripInstances,
             destinationInstances
-          )}/<span>person</span></p>
+          )}/<span>total</span></p>
         </div>
         <div class="trip-image">
+            <div class="trip-status-label">
+                <p>Pending Trip</p>
+            </div>
           <img class="destination-preview" src="${place.image}" alt="${
           place.alt
         }" />
@@ -133,22 +136,27 @@ let domUpdates = {
       .filter((place) => upcomingTrips.includes(place.id))
       .map((place) => {
         const tripDisplay = `
-      <section class="trip-display" id="trip${place.id}">
-        <div class="trip-info">
-          <h2>${place.destination}</h2>
-          <p class="destination-hotel-cost">Lodging Will Be $${place.estimatedLodgingCostPerDay}/<span>night</span></p>
-          <p class="destination-flight-cost">Flights Will Be $${place.estimatedFlightCostPerPerson}/<span>person</span></p>
-        </div>
-        <div class="trip-image">
-          <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
-        </div>
-       </section>
-        `;
+        <section class="trip-display" id="trip${place.id}">
+          <div class="trip-info">
+            <h2>${place.destination}</h2>
+            <p class="destination-hotel-cost">Lodging Will Be $${place.estimatedLodgingCostPerDay}/<span>night</span></p>
+            <p class="destination-flight-cost">Flights Will Be $${place.estimatedFlightCostPerPerson}/<span>person</span></p>
+          </div>
+          <div class="trip-image">
+              <div class="trip-status-label">
+                  <p>Upcoming Trip</p>
+              </div>
+            <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
+          </div>
+         </section>
+          `;
         return tripDisplay;
       })
       .join("");
+    console.log(upcomingDestinations);
     upcomingDestinationList.innerHTML = upcomingDestinations;
   },
+  //   displayPasts(destinationInstances, pastTrips, rawTrips) {
   displayPasts(destinationInstances, pastTrips) {
     const pastDestinationList = document.querySelector(
       ".past-destinations-display"
@@ -164,7 +172,10 @@ let domUpdates = {
           <p class="destination-flight-cost">Flights Were $${place.estimatedFlightCostPerPerson}/<span>person</span></p>
         </div>
         <div class="trip-image">
-          <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
+            <div class="trip-status-label">
+                <p>Past Trip</p>
+            </div>
+        <img class="destination-preview" src="${place.image}" alt="${place.alt}" />
         </div>
        </section>
       `;
