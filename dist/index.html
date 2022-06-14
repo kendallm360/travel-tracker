@@ -7,7 +7,27 @@
     <title>Travel Tracker</title>
   </head>
   <body>
-    <header class="title-bar">
+    <section class="login-page">
+      <div class="login-inputs">
+        <label for="userName">Enter your Username</label>
+        <input
+          class="username-input"
+          type="text"
+          name="userName"
+          id="userName"
+        />
+        <label for="passWord">Enter your Password</label>
+        <input
+          class="password-input"
+          type="password"
+          name="passWord"
+          id="passWord"
+        />
+        <p class="login-error"></p>
+        <button class="login" id="loginButton">Login</button>
+      </div>
+    </section>
+    <header class="title-bar hidden">
       <nav class="nav-bar">
         <button class="nav-buttons" id="dashboard">Dashboard</button>
         <button class="nav-buttons" id="pastTrips">Past Trips</button>
@@ -18,8 +38,7 @@
       <div class="title"></div>
       <div class="total-spend"></div>
     </header>
-
-    <section class="main-display">
+    <section class="main-display hidden">
       <aside class="user-input">
         <label for="dateFilter">Select Desired Start Date</label>
         <input
@@ -28,7 +47,6 @@
           name="dateFilter"
           id="dateFilter"
         />
-
         <label for="durationFilter"
           >How Many Days Would You Like to Stay?</label
         >
@@ -38,7 +56,6 @@
           name="durationFilter"
           id="durationFilter"
         />
-
         <label for="travelersFilter">How Many Travlers Will There Be?</label>
         <input
           class="travelers-filter"
@@ -47,7 +64,6 @@
           id="travelersFilter"
         />
       </aside>
-
       <section class="booking-options">
         <div class="possible-destinations-display">
           <p class="error-message">
@@ -62,7 +78,6 @@
           </p>
         </div>
       </section>
-
       <section class="upcoming-stays-view hidden">
         <div class="upcoming-destinations-display">
           <p class="error-message">
@@ -70,7 +85,6 @@
           </p>
         </div>
       </section>
-
       <section class="pending-stays-view hidden">
         <div class="pending-destinations-display">
           <p class="error-message">
@@ -79,12 +93,6 @@
         </div>
       </section>
     </section>
-    <!--
-      <img
-      src="./images/turing-logo.png"
-      alt="turing logo"
-    />
-    -->
     <script src="bundle.js"></script>
   </body>
 </html>

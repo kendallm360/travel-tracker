@@ -1,6 +1,28 @@
+const welcomeMessage = document.querySelector(".title");
+const totalSpend = document.querySelector(".total-spend");
+const titleBar = document.querySelector(".title-bar");
+const mainDisplay = document.querySelector(".main-display");
+const loginPage = document.querySelector(".login-page");
+const userInput = document.querySelector(".user-input");
+const bookingOptions = document.querySelector(".booking-options");
+const pastTripsView = document.querySelector(".past-stays-view");
+const upcomingTripsView = document.querySelector(".upcoming-stays-view");
+const pendingTripsView = document.querySelector(".pending-stays-view");
+const possibleDestinationList = document.querySelector(
+  ".possible-destinations-display"
+);
+const pendingDestinationList = document.querySelector(
+  ".pending-destinations-display"
+);
+const upcomingDestinationList = document.querySelector(
+  ".upcoming-destinations-display"
+);
+const pastDestinationList = document.querySelector(
+  ".past-destinations-display"
+);
+
 let domUpdates = {
   displayWelcome(user) {
-    const welcomeMessage = document.querySelector(".title");
     welcomeMessage.innerHTML = `<h1>Welcome ${user.returnFirstName()}<h1>`;
   },
   displayAnnualSpend(
@@ -10,7 +32,6 @@ let domUpdates = {
     firstOfYear,
     lastOfYear
   ) {
-    const totalSpend = document.querySelector(".total-spend");
     totalSpend.innerHTML = `<p>You Spent ${user.calculateAnnualTotalSpend(
       tripInstances,
       destinationInstances,
@@ -18,24 +39,27 @@ let domUpdates = {
       lastOfYear
     )} on Trips this year</p>`;
   },
+  displayLogin() {
+    userInput.classList.add("hidden");
+    bookingOptions.classList.add("hidden");
+    titleBar.classList.add("hidden");
+    mainDisplay.classList.add("hidden");
+    pastTripsView.classList.add("hidden");
+    upcomingTripsView.classList.add("hidden");
+    pendingTripsView.classList.add("hidden");
+    loginPage.classList.remove("hidden");
+  },
   displayMainPage() {
-    const userInput = document.querySelector(".user-input");
-    const bookingOptions = document.querySelector(".booking-options");
-    const pastTripsView = document.querySelector(".past-stays-view");
-    const upcomingTripsView = document.querySelector(".upcoming-stays-view");
-    const pendingTripsView = document.querySelector(".pending-stays-view");
     userInput.classList.remove("hidden");
     bookingOptions.classList.remove("hidden");
+    titleBar.classList.remove("hidden");
+    mainDisplay.classList.remove("hidden");
+    loginPage.classList.add("hidden");
     pastTripsView.classList.add("hidden");
     upcomingTripsView.classList.add("hidden");
     pendingTripsView.classList.add("hidden");
   },
   displayPastTab() {
-    const userInput = document.querySelector(".user-input");
-    const bookingOptions = document.querySelector(".booking-options");
-    const pastTripsView = document.querySelector(".past-stays-view");
-    const upcomingTripsView = document.querySelector(".upcoming-stays-view");
-    const pendingTripsView = document.querySelector(".pending-stays-view");
     userInput.classList.add("hidden");
     bookingOptions.classList.add("hidden");
     upcomingTripsView.classList.add("hidden");
@@ -43,11 +67,6 @@ let domUpdates = {
     pastTripsView.classList.remove("hidden");
   },
   displayUpcomingTab() {
-    const userInput = document.querySelector(".user-input");
-    const bookingOptions = document.querySelector(".booking-options");
-    const pastTripsView = document.querySelector(".past-stays-view");
-    const upcomingTripsView = document.querySelector(".upcoming-stays-view");
-    const pendingTripsView = document.querySelector(".pending-stays-view");
     userInput.classList.add("hidden");
     bookingOptions.classList.add("hidden");
     pastTripsView.classList.add("hidden");
@@ -55,11 +74,6 @@ let domUpdates = {
     upcomingTripsView.classList.remove("hidden");
   },
   displayPendingTab() {
-    const userInput = document.querySelector(".user-input");
-    const bookingOptions = document.querySelector(".booking-options");
-    const pastTripsView = document.querySelector(".past-stays-view");
-    const upcomingTripsView = document.querySelector(".upcoming-stays-view");
-    const pendingTripsView = document.querySelector(".pending-stays-view");
     userInput.classList.add("hidden");
     bookingOptions.classList.add("hidden");
     pastTripsView.classList.add("hidden");
@@ -67,9 +81,6 @@ let domUpdates = {
     pendingTripsView.classList.remove("hidden");
   },
   displayDestinations(destinationInstances, possibleTrips) {
-    const possibleDestinationList = document.querySelector(
-      ".possible-destinations-display"
-    );
     const possibleDestinations = destinationInstances
       .filter((place) => possibleTrips.includes(place.id))
       .map((place) => {
@@ -91,10 +102,11 @@ let domUpdates = {
       .join("");
     possibleDestinationList.innerHTML = possibleDestinations;
   },
+  displayNoPendings() {
+    pendingDestinationList.innerHTML = `It looks like you don't have any pending trips. Return to Dashboard to
+    make plans`;
+  },
   displayPendings(destinationInstances, pendingTrips, tripInstances, user) {
-    const pendingDestinationList = document.querySelector(
-      ".pending-destinations-display"
-    );
     const pendingDestinations = destinationInstances
       .filter((place) => pendingTrips.includes(place.id))
       .map((place) => {
@@ -128,10 +140,11 @@ let domUpdates = {
       .join("");
     pendingDestinationList.innerHTML = pendingDestinations;
   },
+  displayNoUpcomings() {
+    upcomingDestinationList.innerHTML = `It looks like you don't have any upcoming trips. Return to Dashboard to
+    make plans`;
+  },
   displayUpcomings(destinationInstances, upcomingTrips) {
-    const upcomingDestinationList = document.querySelector(
-      ".upcoming-destinations-display"
-    );
     const upcomingDestinations = destinationInstances
       .filter((place) => upcomingTrips.includes(place.id))
       .map((place) => {
@@ -155,11 +168,11 @@ let domUpdates = {
       .join("");
     upcomingDestinationList.innerHTML = upcomingDestinations;
   },
-  //   displayPasts(destinationInstances, pastTrips, rawTrips) {
+  displayNoPasts() {
+    pastDestinationList.innerHTML = `It looks like you don't have any past trips. Return to Dashboard to
+    make plans`;
+  },
   displayPasts(destinationInstances, pastTrips) {
-    const pastDestinationList = document.querySelector(
-      ".past-destinations-display"
-    );
     const pastDestinations = destinationInstances
       .filter((place) => pastTrips.includes(place.id))
       .map((place) => {

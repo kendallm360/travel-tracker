@@ -1,4 +1,3 @@
-// import Trips from "./Trips";
 import {
   calculateEachTripTotal,
   calculateAllTripsTotal,
@@ -55,7 +54,7 @@ export default class Traveler {
       this.id,
       tripData,
       yearStart,
-      yearEnd, 
+      yearEnd,
       "approved"
     );
     const eachTripTotal = calculateEachTripTotal(
