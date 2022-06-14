@@ -7,7 +7,7 @@ import Traveler from "./Traveler";
 import Trips from "./Trips";
 import Destinations from "./Destinations";
 import domUpdates from "./domUpdates";
-import { findTrips, findRawTrips } from "./util";
+import { findTrips } from "./util";
 
 //IMAGES
 import "./images/turing-logo.png";
@@ -26,21 +26,20 @@ let lastOfYear;
 
 //QUERY SELECTORS
 const loginButton = document.querySelector(".login");
-// const logoutButton = document.querySelector("#logout");
+const logoutButton = document.querySelector("#logout");
 const dashboardButton = document.querySelector("#dashboard");
 const pastTripsButton = document.querySelector("#pastTrips");
 const upcomingTripsButton = document.querySelector("#upcomingTrips");
 const pendingTripsButton = document.querySelector("#pendingTrips");
-const possibleDestinationList = document.querySelector(
-  ".possible-destinations-display"
-);
 const loginError = document.querySelector(".login-error");
-// const loginInputs = document.querySelector(".login-inputs");
 const usernameInput = document.querySelector(".username-input");
 const passwordInput = document.querySelector(".password-input");
 const dateInput = document.querySelector(".date-filter");
 const durationInput = document.querySelector(".duration-filter");
 const travelersInput = document.querySelector(".travelers-filter");
+const possibleDestinationList = document.querySelector(
+  ".possible-destinations-display"
+);
 
 //FETCH CALLS
 const fetchUsers = () => {
@@ -116,6 +115,15 @@ const createRepositories = () => {
   });
 };
 
+const setInitialDisplay = () => {
+  displayDashboard();
+  displayWelcome();
+  declareStartOfYear();
+  declareLastOfYear();
+  displayTotalPrice();
+  displayPossibleDestinations();
+};
+
 const displayWelcome = () => {
   domUpdates.displayWelcome(currentUser);
 };
@@ -155,7 +163,12 @@ const verifyUsername = () => {
   let username = usernameInput.value;
   const letters = username.split("").slice(0, 8).join("");
   const numbers = parseInt(username.split("").slice(8).join(""));
-  if (username.length < 9 || numbers <= 0 || numbers > 50) {
+  if (
+    username.length < 9 ||
+    numbers <= 0 ||
+    numbers > 50 ||
+    letters !== "traveler"
+  ) {
     loginError.innerText = `You have entered an invalid username or password`;
   } else {
     return numbers;
@@ -172,18 +185,10 @@ const verifyPassword = () => {
   }
 };
 
-const setInitialDisplay = () => {
-  displayDashboard();
-  displayWelcome();
-  declareStartOfYear();
-  declareLastOfYear();
-  displayTotalPrice();
-  displayPossibleDestinations();
+const logoutUser = () => {
+  domUpdates.displayLogin();
+  clearLoginForm();
 };
-
-// const returnToLogin = () => {
-//   domUpdates.displayLogin;
-// };
 
 const displayPossibleDestinations = () => {
   const possibleTrips = tripInstances.map((trip) => trip.destinationID);
@@ -238,14 +243,6 @@ const displayPastDestinations = () => {
   } else {
     domUpdates.displayPasts(destinationInstances, pastTrips);
   }
-  // let rawTrips = findRawTrips(
-  //   tripInstances,
-  //   currentUser.id,
-  //   "approved",
-  //   currentDate
-  // );
-  // console.log(rawTrips);
-  // domUpdates.displayPasts(destinationInstances, pastTrips, rawTrips);
 };
 
 const declareStartOfYear = () => {
@@ -307,9 +304,14 @@ const showServerError = (error) => {
 };
 
 const clearForm = () => {
-  travelersInput.value = 0;
+  travelersInput.value = "";
   dateInput.value = "mm/dd/yyyy";
-  durationInput.value = 0;
+  durationInput.value = "";
+};
+
+const clearLoginForm = () => {
+  usernameInput.value = "";
+  passwordInput.value = "";
 };
 
 const confirmPost = () => {
@@ -319,31 +321,14 @@ const confirmPost = () => {
 };
 
 //EVENT LISTENERS
-window.addEventListener("load", () => {
-  fetchUsers();
-});
-dashboardButton.addEventListener("click", () => {
-  displayDashboard();
-});
-pastTripsButton.addEventListener("click", () => {
-  console.log(currentUser.id);
-  displayPastTrips();
-});
-upcomingTripsButton.addEventListener("click", () => {
-  displayUpcomingTrips();
-});
-pendingTripsButton.addEventListener("click", () => {
-  displayPendingTrips();
-});
+window.addEventListener("load", fetchUsers);
+dashboardButton.addEventListener("click", displayDashboard);
+pastTripsButton.addEventListener("click", displayPastTrips);
+upcomingTripsButton.addEventListener("click", displayUpcomingTrips);
+pendingTripsButton.addEventListener("click", displayPendingTrips);
 possibleDestinationList.addEventListener("click", (event) => {
   event.preventDefault();
   submitBookingRequest();
 });
-loginButton.addEventListener("click", () => {
-  verifyUser();
-});
-// logoutButton.addEventListener("click", () => {
-//   console.log("steve");
-//   debugger;
-//   returnToLogin();
-// });
+loginButton.addEventListener("click", verifyUser);
+logoutButton.addEventListener("click", logoutUser);

@@ -1,7 +1,5 @@
 /* global */
-
 body {
-  /* background-image: url(../images/bg3.jpg); */
   background-color: black;
   color: orange;
   display: flex;
@@ -23,13 +21,12 @@ span {
   font-size: x-small;
 }
 
+/* Login Page */
 .login-page {
   margin-top: 225px;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  /* align-content: center; */
-  /* align-items: center; */
 }
 
 .login-inputs {
@@ -48,13 +45,15 @@ span {
   width: 70%;
 }
 
-.login {
+.login,
+.date-filter {
+  text-align: center;
   cursor: pointer;
 }
+
 /* Header */
 .title-bar {
   background-color: black;
-  /* background-image: url(../images/tropical-banner.jpg); */
   height: 15vh;
   color: orange;
   width: 100vw;
@@ -102,7 +101,6 @@ span {
 
 .user-input {
   background-color: #242424;
-  /* background-image: url(../images/bg3.jpg); */
   border-bottom-right-radius: 40px;
   border-top-right-radius: 40px;
   text-align: center;

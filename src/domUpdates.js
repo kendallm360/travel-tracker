@@ -39,16 +39,16 @@ let domUpdates = {
       lastOfYear
     )} on Trips this year</p>`;
   },
-  // displayLogin() {
-  //   userInput.classList.add("hidden");
-  //   bookingOptions.classList.add("hidden");
-  //   titleBar.classList.add("hidden");
-  //   mainDisplay.classList.add("hidden");
-  //   pastTripsView.classList.add("hidden");
-  //   upcomingTripsView.classList.add("hidden");
-  //   pendingTripsView.classList.add("hidden");
-  //   loginPage.classList.remove("hidden");
-  // },
+  displayLogin() {
+    userInput.classList.add("hidden");
+    bookingOptions.classList.add("hidden");
+    titleBar.classList.add("hidden");
+    mainDisplay.classList.add("hidden");
+    pastTripsView.classList.add("hidden");
+    upcomingTripsView.classList.add("hidden");
+    pendingTripsView.classList.add("hidden");
+    loginPage.classList.remove("hidden");
+  },
   displayMainPage() {
     userInput.classList.remove("hidden");
     bookingOptions.classList.remove("hidden");
