@@ -7,7 +7,26 @@
     <title>Travel Tracker</title>
   </head>
   <body>
-    <header class="title-bar">
+    <section class="login-page">
+      <div class="login-inputs">
+        <label for="userName">Enter your Username</label>
+        <input
+          class="username-input"
+          type="text"
+          name="userName"
+          id="userName"
+        />
+        <label for="passWord">Enter your Password</label>
+        <input
+          class="password-input"
+          type="text"
+          name="passWord"
+          id="passWord"
+        />
+        <button class="login" id="loginButton">Login</button>
+      </div>
+    </section>
+    <header class="title-bar hidden">
       <nav class="nav-bar">
         <button class="nav-buttons" id="dashboard">Dashboard</button>
         <button class="nav-buttons" id="pastTrips">Past Trips</button>
@@ -19,7 +38,7 @@
       <div class="total-spend"></div>
     </header>
 
-    <section class="main-display">
+    <section class="main-display hidden">
       <aside class="user-input">
         <label for="dateFilter">Select Desired Start Date</label>
         <input
