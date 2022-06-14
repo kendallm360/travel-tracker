@@ -19,6 +19,9 @@ let domUpdates = {
     )} on Trips this year</p>`;
   },
   displayMainPage() {
+    const titleBar = document.querySelector(".title-bar");
+    const mainDisplay = document.querySelector(".main-display");
+    const loginPage = document.querySelector(".login-page");
     const userInput = document.querySelector(".user-input");
     const bookingOptions = document.querySelector(".booking-options");
     const pastTripsView = document.querySelector(".past-stays-view");
@@ -26,6 +29,9 @@ let domUpdates = {
     const pendingTripsView = document.querySelector(".pending-stays-view");
     userInput.classList.remove("hidden");
     bookingOptions.classList.remove("hidden");
+    titleBar.classList.remove("hidden");
+    mainDisplay.classList.remove("hidden");
+    loginPage.classList.add("hidden");
     pastTripsView.classList.add("hidden");
     upcomingTripsView.classList.add("hidden");
     pendingTripsView.classList.add("hidden");

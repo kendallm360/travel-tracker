@@ -51,10 +51,8 @@ const fetchUsers = () => {
       travelerData = data[0].travelers;
       tripsData = data[1].trips;
       destinationsData = data[2].destinations;
-      // createRepositories(id);
-      // console.log(verifyUsername());
-      // setInitialDisplay();
-      // console.log(currentUser);
+      //added line below since this happens slower than the fetch
+      createRepositories();
     })
     .catch((error) => showServerError(error));
 };
@@ -67,6 +65,7 @@ const submitBookingRequest = () => {
       fetchUsers();
       clearForm();
       confirmPost();
+      displayPendingDestinations();
     });
   }
 };
@@ -90,24 +89,28 @@ const verifyUser = () => {
   const passwordCheck = verifyPassword();
   if (userID && passwordCheck) {
     fetchUsers();
-    createRepositories(userID);
+    // createRepositories();
+    setCurrentUser(userID);
     setInitialDisplay();
   }
 };
 
-const createRepositories = (id) => {
+const setCurrentUser = (id) => {
+  currentUser = travelerInstances[id - 1];
+  return currentUser;
+};
+
+const createRepositories = () => {
   currentDate = new Date().toISOString().split("T")[0].split("-").join("/");
   travelerInstances = travelerData.map((traveler) => {
     return new Traveler(traveler);
   });
-  currentUser = travelerInstances[id - 1];
   tripInstances = tripsData.map((trip) => {
     return new Trips(trip);
   });
   destinationInstances = destinationsData.map((destination) => {
     return new Destinations(destination);
   });
-  console.log(currentUser);
 };
 
 const displayWelcome = () => {
@@ -167,6 +170,7 @@ const verifyPassword = () => {
 };
 
 const setInitialDisplay = () => {
+  displayDashboard();
   displayWelcome();
   declareStartOfYear();
   declareLastOfYear();
@@ -294,6 +298,7 @@ dashboardButton.addEventListener("click", () => {
   displayDashboard();
 });
 pastTripsButton.addEventListener("click", () => {
+  console.log(currentUser.id);
   displayPastTrips();
 });
 upcomingTripsButton.addEventListener("click", () => {
