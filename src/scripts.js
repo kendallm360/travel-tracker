@@ -8,6 +8,7 @@ import Trips from "./Trips";
 import Destinations from "./Destinations";
 import domUpdates from "./domUpdates";
 import { findTrips, findRawTrips } from "./util";
+
 //IMAGES
 import "./images/turing-logo.png";
 
@@ -25,6 +26,7 @@ let lastOfYear;
 
 //QUERY SELECTORS
 const loginButton = document.querySelector(".login");
+// const logoutButton = document.querySelector("#logout");
 const dashboardButton = document.querySelector("#dashboard");
 const pastTripsButton = document.querySelector("#pastTrips");
 const upcomingTripsButton = document.querySelector("#upcomingTrips");
@@ -51,21 +53,23 @@ const fetchUsers = () => {
       travelerData = data[0].travelers;
       tripsData = data[1].trips;
       destinationsData = data[2].destinations;
-      //added line below since this happens slower than the fetch
       createRepositories();
     })
     .catch((error) => showServerError(error));
 };
 
 const submitBookingRequest = () => {
-  let formCheck = handleUserInputErrors();
-  if (formCheck) {
+  let formChecks = [
+    handleDateError(),
+    handleDurationError(),
+    handleTravelerError(),
+  ];
+  if (formChecks[0] && formChecks[1] && formChecks[2]) {
     const newTrip = makeTripRequest();
     Promise.all([postData(newTrip)]).then((data) => {
       fetchUsers();
       clearForm();
       confirmPost();
-      displayPendingDestinations();
     });
   }
 };
@@ -89,7 +93,6 @@ const verifyUser = () => {
   const passwordCheck = verifyPassword();
   if (userID && passwordCheck) {
     fetchUsers();
-    // createRepositories();
     setCurrentUser(userID);
     setInitialDisplay();
   }
@@ -178,6 +181,10 @@ const setInitialDisplay = () => {
   displayPossibleDestinations();
 };
 
+// const returnToLogin = () => {
+//   domUpdates.displayLogin;
+// };
+
 const displayPossibleDestinations = () => {
   const possibleTrips = tripInstances.map((trip) => trip.destinationID);
   domUpdates.displayDestinations(destinationInstances, possibleTrips);
@@ -191,12 +198,16 @@ const displayPendingDestinations = () => {
     currentDate,
     "after"
   );
-  domUpdates.displayPendings(
-    destinationInstances,
-    pendingTrips,
-    tripInstances,
-    currentUser
-  );
+  if (pendingTrips.length === 0) {
+    domUpdates.displayNoPendings();
+  } else {
+    domUpdates.displayPendings(
+      destinationInstances,
+      pendingTrips,
+      tripInstances,
+      currentUser
+    );
+  }
 };
 
 const displayUpcomingDestinations = () => {
@@ -207,7 +218,11 @@ const displayUpcomingDestinations = () => {
     currentDate,
     "after"
   );
-  domUpdates.displayUpcomings(destinationInstances, upcomingTrips);
+  if (upcomingTrips.length === 0) {
+    domUpdates.displayNoUpcomings();
+  } else {
+    domUpdates.displayUpcomings(destinationInstances, upcomingTrips);
+  }
 };
 
 const displayPastDestinations = () => {
@@ -218,8 +233,11 @@ const displayPastDestinations = () => {
     currentDate,
     "before"
   );
-  domUpdates.displayPasts(destinationInstances, pastTrips);
-
+  if (pastTrips.length === 0) {
+    domUpdates.displayNoPasts();
+  } else {
+    domUpdates.displayPasts(destinationInstances, pastTrips);
+  }
   // let rawTrips = findRawTrips(
   //   tripInstances,
   //   currentUser.id,
@@ -250,17 +268,27 @@ const declareLastOfYear = () => {
   return lastOfYear;
 };
 
-const handleUserInputErrors = () => {
+const handleDateError = () => {
   if (dateInput.value.split("-").join("/") <= currentDate || !dateInput.value) {
     alert("Make sure you select a future date and book a destination");
     return false;
+  } else {
+    return true;
   }
+};
+
+const handleDurationError = () => {
   if (durationInput.value < 1 || !durationInput.value) {
     alert(
       "Make sure you add how many days you'd like to stay and book a destination"
     );
     return false;
+  } else {
+    return true;
   }
+};
+
+const handleTravelerError = () => {
   if (travelersInput.value < 1 || !travelersInput.value) {
     alert(
       "Make sure you add a total number of travelers and book a destination"
@@ -314,3 +342,8 @@ possibleDestinationList.addEventListener("click", (event) => {
 loginButton.addEventListener("click", () => {
   verifyUser();
 });
+// logoutButton.addEventListener("click", () => {
+//   console.log("steve");
+//   debugger;
+//   returnToLogin();
+// });
