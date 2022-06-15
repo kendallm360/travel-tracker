@@ -12,21 +12,4 @@ export default class Destinations {
     this.image = destinationData.image || "No image has been provided";
     this.alt = destinationData.alt || "No alt tag has been provided";
   }
-
-  estimateTripTotal(tripData, destinationData) {
-    let estTotal = tripData
-      .filter((trip) => trip.userID === this.id)
-      .reduce((acc, trip) => {
-        let destinationChosen = destinationData.find(
-          (destination) => destination.id === trip.destinationID
-        );
-        acc =
-          (trip.duration * destinationChosen.estimatedLodgingCostPerDay +
-            destinationChosen.estimatedFlightCostPerPerson) *
-          trip.travelers;
-        let agentFee = acc * 0.1;
-        return acc + agentFee;
-      }, 0);
-    return estTotal;
-  }
 }
