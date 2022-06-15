@@ -120,7 +120,7 @@ let domUpdates = {
           <p class="destination-flight-cost">Flights Will Be $${
             place.estimatedFlightCostPerPerson
           }/<span>person</span></p>
-          <p class="estimated-total">This trip will cost an estimate of $${user.estimateTripTotal(
+          <p class="estimated-total">This trip will cost an estimate of $${place.estimateTripTotal(
             tripInstances,
             destinationInstances
           )}/<span>total</span></p>

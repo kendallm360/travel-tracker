@@ -39,7 +39,6 @@ const calculateEachTripTotal = (
 ) => {
   let eachTripTotal = filteredTrips.reduce((acc, trip) => {
     if (filteredDestinations.includes(trip.destinationID)) {
-      //the  next two variables can be moved to another function
       let destinationCost = destinationData
         .filter((destination) => trip.destinationID === destination.id)
         .map((destination) => destination.estimatedLodgingCostPerDay)
@@ -64,18 +63,9 @@ const calculateAllTripsTotal = (filteredTripTotals) => {
   return totalSpent + agentFee;
 };
 
-// const findRawTrips = (tripData, currentId, status, currentDate) => {
-//   const rawTrips = tripData
-//     .filter((trip) => trip.userID === currentId)
-//     .filter((trip) => trip.status === status)
-//     .filter((trip) => trip.date < currentDate);
-//   return rawTrips;
-// };
-
 export {
   findTrips,
   findUserTripsCurrentYear,
   calculateEachTripTotal,
   calculateAllTripsTotal,
-  // findRawTrips,
 };
