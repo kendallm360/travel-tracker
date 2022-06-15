@@ -35,6 +35,9 @@ Travel Tracker is the final solo project built during Mod 2 of Turing School of 
 - Realizing I can accomplish a lot by myself
 - Using separate files like mockData, utils, and domUpdates to break up logic for better SRP
 
+## Example of Site:
+- ![Demo of Successful Post](./src/images/posting.mov)
+- ![Demo of All Tab Views](./src/images/tabs.mov)
 
 ## Future Additions
 - Add local storage to save requested trips
